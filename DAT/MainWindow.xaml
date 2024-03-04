@@ -89,7 +89,7 @@
             <Grid>
                 <TextBox IsReadOnly="True"
                     Style="{StaticResource Clock}"
-                    x:Name="Clock" 
+                    x:Name="Clock_label" 
                     VerticalContentAlignment="Center" 
                     HorizontalContentAlignment="Center" 
                     VerticalAlignment="Top"
@@ -99,9 +99,9 @@
                     Text="0:00"  
                     Width="130"
                     TextChanged="TextBox_TextChanged"/>
-                <Button HorizontalAlignment="Left" Margin="5, 0, 0, 0" Content="Start"/>
-                <Button HorizontalAlignment="Right" Margin="0, 0, 5, 0" Content="Stop"/>
-                <Button HorizontalAlignment="Center" Margin="0, 75, 0, 0" Content="Reset"></Button>
+                <Button x:Name="StartClock" HorizontalAlignment="Left" Margin="5, 0, 0, 0" Content="Start" Click="StartClock_Click"/>
+                <Button x:Name="StopClock" HorizontalAlignment="Right" Margin="0, 0, 5, 0" Content="Stop" ToolTip="Stop/Pause" Click="StopClock_Click"/>
+                <Button x:Name="ResetClock" HorizontalAlignment="Center" Margin="0, 75, 0, 0" Content="Reset" Click="ResetClock_Click"></Button>
             </Grid>
         </GroupBox>
 
