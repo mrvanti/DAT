@@ -4,14 +4,12 @@ using System.Timers;
 
 namespace DAT
 {
-
-
     public class CountdownTimer : IDisposable
     {
         public Stopwatch _stpWatch = new Stopwatch();
 
-        public Action TimeChanged;
-        public Action CountDownFinished;
+        public EventHandler TimeChanged;
+        public EventHandler CountDownFinished;
 
         public bool IsRunnign => timer.Enabled;
 
@@ -32,16 +30,16 @@ namespace DAT
 
         private bool _mustStop => (_max.TotalMilliseconds - _stpWatch.ElapsedMilliseconds) < 0;
 
-        public string TimeLeftStr => TimeLeft.ToString(@"\m\:ss");
+        public string TimeLeftStr => TimeLeft.ToString(@"m\:ss");
 
 
         private void OnTimerElapsed(object sender, EventArgs e)
         {
-            TimeChanged?.Invoke();
+            TimeChanged.Invoke(TimeLeftStr, e);
 
             if (_mustStop)
             {
-                CountDownFinished?.Invoke();
+                CountDownFinished.Invoke(sender, e);
                 _stpWatch.Stop();
                 timer.Enabled = false;
             }
@@ -68,7 +66,6 @@ namespace DAT
         public void SetTime(TimeSpan ts)
         {
             _max = ts;
-            TimeChanged?.Invoke();
         }
 
         public void SetTime(int min, int sec = 0) => SetTime(TimeSpan.FromSeconds(min * 60 + sec));

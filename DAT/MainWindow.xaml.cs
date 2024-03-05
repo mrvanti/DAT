@@ -23,13 +23,23 @@ namespace DAT
 
             _timer = new CountdownTimer();
                         
-            _timer.SetTime(2, 0);           
+            _timer.SetTime(2, 0);
 
             //update label text
-            _timer.TimeChanged += () => Clock_label.Text = _timer.TimeLeftStr;
+            _timer.TimeChanged += onTimeChanged;
 
             // show messageBox on timer = 0:00.000
-            _timer.CountDownFinished += () => MessageBox.Show("Timer finished the work!");
+            //_timer.CountDownFinished += () => MessageBox.Show("Timer finished the work!");
+        }
+
+        private void onTimeChanged(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() => Clock_label.Text = sender.ToString());            
+        }
+
+        private void onCountdownFinished(object sender, EventArgs e)
+        {
+
         }
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -40,7 +50,6 @@ namespace DAT
         private void StartClock_Click(object sender, RoutedEventArgs e)
         {
             _timer.Start();
-
         }
 
         private void StopClock_Click(object sender, RoutedEventArgs e)
