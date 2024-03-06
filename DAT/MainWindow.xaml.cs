@@ -12,17 +12,19 @@ namespace DAT
     /// </summary>
     public partial class MainWindow : Window
     {
-
         private const string _startTimeDisplay = "2:00";
         private readonly CountdownTimer _timer;
+        private ExternalWindow _externalWindow;
 
         public MainWindow()
         {
+            _externalWindow = new ExternalWindow();
+
             InitializeComponent();
             Clock_label.Text = _startTimeDisplay;
 
             _timer = new CountdownTimer();
-                        
+
             _timer.SetTime(2, 0);
 
             //update label text
@@ -34,7 +36,7 @@ namespace DAT
 
         private void onTimeChanged(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(() => Clock_label.Text = sender.ToString());            
+            Application.Current.Dispatcher.Invoke(() => Clock_label.Text = sender.ToString());
         }
 
         private void onCountdownFinished(object sender, EventArgs e)
@@ -61,6 +63,25 @@ namespace DAT
         {
             _timer.Reset();
         }
+
+        private void VisaExtern_Click(object sender, RoutedEventArgs e)
+        {
+            if (_externalWindow == null)
+            {
+                _externalWindow = new ExternalWindow();
+            }
+            if (_externalWindow.Visibility == Visibility.Hidden)
+            {
+                _externalWindow.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                _externalWindow.Show();
+                _externalWindow.Owner = this;
+
+            }
+        }
+
 
     }
 }

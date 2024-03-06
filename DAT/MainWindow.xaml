@@ -74,8 +74,8 @@
                 <TextBlock FontSize="25">Misc</TextBlock>
             </GroupBox.Header>
             <Grid>
-            <Button Content="Reset" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center"/>
-            <Button Content="Visa Extern" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center"/>
+            <Button x:Name="ResetApp" Content="Reset" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center"/>
+            <Button x:Name="VisaExtern" Content="Visa Extern" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Click="VisaExtern_Click"/>
                 
             </Grid>
         </GroupBox>

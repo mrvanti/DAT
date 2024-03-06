@@ -20,11 +20,28 @@ namespace DAT
         public ExternalWindow()
         {
             InitializeComponent();
+            this.Closing += OnClose;
         }
 
         private void Clock_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+        private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Visibility = Visibility.Hidden;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void ExternalWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double controlsize = ((e.NewSize.Width / 12) / 3 * 4);
+            Application.Current.Resources.Remove("ControlFontSize");
+            Application.Current.Resources.Add("ControlFontSize", controlsize);            
         }
     }
 }
