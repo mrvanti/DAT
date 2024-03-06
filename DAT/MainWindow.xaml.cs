@@ -36,7 +36,14 @@ namespace DAT
 
         private void onTimeChanged(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(() => Clock_label.Text = sender.ToString());
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Clock_label.Text = sender.ToString();
+                if (_externalWindow != null)
+                {
+                    _externalWindow.Clock_external.Text = sender.ToString();
+                }
+            });
         }
 
         private void onCountdownFinished(object sender, EventArgs e)
