@@ -14,14 +14,13 @@ namespace DAT
         public bool IsRunnign => timer.Enabled;
 
         private Timer timer = new Timer();
-        public int StepMs
+        public double StepMs
         {
-            get => (int)timer.Interval;
+            get => timer.Interval;
             set => timer.Interval = value;
         }
 
-
-        private TimeSpan _max = TimeSpan.FromMilliseconds(30000);
+        private TimeSpan _max;
 
         public TimeSpan TimeLeft => 
             (_max.TotalMilliseconds - _stpWatch.ElapsedMilliseconds) > 0 
@@ -47,7 +46,7 @@ namespace DAT
 
         public CountdownTimer(int min, int sec)
         {
-            SetTime(min, sec);
+            SetTime(min, sec);            
             Init();
         }
 

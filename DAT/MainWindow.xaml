@@ -46,11 +46,11 @@
                 <TextBlock FontSize="25">Blue</TextBlock>
             </GroupBox.Header>
             <Grid>
-                <TextBox IsReadOnly="True" Style="{StaticResource Label}" x:Name="BlueScore" Background="Blue" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top"  TextWrapping="Wrap" Text="0"/>
-                <Button x:Name="BlueWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="5,110,0,0" VerticalAlignment="Top" />
-                <Button x:Name="BlueWazaMinus" Content="Waza -7" HorizontalAlignment="Left" Margin="75,110,0,0" VerticalAlignment="Top" />
-                <Button x:Name="BlueIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="5,160,0,0" VerticalAlignment="Top" />
-                <Button x:Name="BlueIpponMinus" Content="Ippon -10" HorizontalAlignment="Left" Margin="75,160,0,0" VerticalAlignment="Top" />
+                <TextBox x:Name="BlueScore" IsReadOnly="True" Style="{StaticResource Label}" Background="Blue" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top"  TextWrapping="Wrap" Text="0"/>
+                <Button x:Name="BlueWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="5,110,0,0" VerticalAlignment="Top" Click="BlueWazaPlus_Click" />
+                <Button x:Name="BlueWazaMinus" Content="Waza -7" HorizontalAlignment="Left" Margin="75,110,0,0" VerticalAlignment="Top" Click="BlueWazaMinus_Click" />
+                <Button x:Name="BlueIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="5,160,0,0" VerticalAlignment="Top" Click="BlueIpponPlus_Click" />
+                <Button x:Name="BlueIpponMinus" Content="Ippon -10" HorizontalAlignment="Left" Margin="75,160,0,0" VerticalAlignment="Top" Click="BlueIpponMinus_Click" />
 
             </Grid>
         </GroupBox>
@@ -60,11 +60,11 @@
                 <TextBlock FontSize="25">White</TextBlock>
             </GroupBox.Header>
             <Grid>
-                <TextBox IsReadOnly="True" Style="{StaticResource Label}" x:Name="WhiteScore" Background="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
-                <Button x:Name="WhiteWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="5,110,0,0" VerticalAlignment="Top" />
-                <Button x:Name="WhiteWazaMinus" Content="Waza -7" HorizontalAlignment="Left" Margin="75,110,0,0" VerticalAlignment="Top" />
-                <Button x:Name="WhiteIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="5,160,0,0" VerticalAlignment="Top" />
-                <Button x:Name="WhiteIpponMinus" Content="Ippon -10" HorizontalAlignment="Left" Margin="75,160,0,0" VerticalAlignment="Top" />
+                <TextBox x:Name="WhiteScore" IsReadOnly="True" Style="{StaticResource Label}" Background="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
+                <Button x:Name="WhiteWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="5,110,0,0" VerticalAlignment="Top" Click="WhiteWazaPlus_Click" />
+                <Button x:Name="WhiteWazaMinus" Content="Waza -7" HorizontalAlignment="Left" Margin="75,110,0,0" VerticalAlignment="Top" Click="WhiteWazaMinus_Click" />
+                <Button x:Name="WhiteIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="5,160,0,0" VerticalAlignment="Top" Click="WhiteIpponPlus_Click" />
+                <Button x:Name="WhiteIpponMinus" Content="Ippon -10" HorizontalAlignment="Left" Margin="75,160,0,0" VerticalAlignment="Top" Click="WhiteIpponMinus_Click" />
 
             </Grid>
         </GroupBox>
