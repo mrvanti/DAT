@@ -1,8 +1,8 @@
 ﻿
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 
 namespace DAT
 {
@@ -12,8 +12,11 @@ namespace DAT
     public partial class MainWindow : Window
     {
         private const string _startTimeDisplay = "2:00";
-        private int blueScore = 0;
-        private int whiteScore = 0;
+        private const string _blueWin = "Blue wins";
+        private const string _whiteWin = "White wins";
+        private const string _draw = "Draw";
+        private int _blueScore = 0;
+        private int _whiteScore = 0;
         private System.Timers.Timer _timer = new System.Timers.Timer(1000.0);
         private ExternalWindow _externalWindow;
         private int _maxTime = 2 * 60;
@@ -46,7 +49,7 @@ namespace DAT
             {
                 if (_mustStop)
                 {
-                    CheckWinner();
+                    CheckWinner(timeUp: true);
                 }
                 Clock_label.Text = TimeLeft.ToString(@"m\:ss"); ;
                 if (_externalWindow != null)
@@ -56,14 +59,36 @@ namespace DAT
             });
         }
 
-        private void CheckWinner()
+        private void CheckWinner(bool timeUp = false)
         {
-            
+            if (_externalWindow != null)
+            {
+                if (_blueScore - _whiteScore >= 30 || _whiteScore - _blueScore >= 30)
+                {
+                    CheckWinningScore();
+                }
+                if (timeUp)
+                {
+                    CheckWinningScore();
+                    _externalWindow.Result_external.Text = _draw;
+                }
+            }
         }
-
-        private void onCountdownFinished(object sender, EventArgs e)
+        private void CheckWinningScore()
         {
+            if (_blueScore > _whiteScore)
+            {
+                _externalWindow.Result_external.Text = _blueWin;
+                _externalWindow.Result_external.Background = Brushes.Blue;
+                _externalWindow.Result_external.BorderBrush = Brushes.Red;
+            }
 
+            if (_whiteScore > _blueScore)
+            {
+                _externalWindow.Result_external.Text = _whiteWin;
+                _externalWindow.Result_external.Background = Brushes.White;
+                _externalWindow.Result_external.BorderBrush = Brushes.Red;
+            }
         }
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -118,43 +143,70 @@ namespace DAT
         #region Score
         private void BlueWazaPlus_Click(object sender, RoutedEventArgs e)
         {
-            blueScore += 7;
-
+            _blueScore += 7;
+            BlueAfterScoreChange();
         }
 
         private void BlueWazaMinus_Click(object sender, RoutedEventArgs e)
         {
-            blueScore -= 7;
+            _blueScore -= 7;
+            BlueAfterScoreChange();
         }
 
         private void BlueIpponPlus_Click(object sender, RoutedEventArgs e)
         {
-            blueScore += 10;
+            _blueScore += 10;
+            BlueAfterScoreChange();
         }
 
         private void BlueIpponMinus_Click(object sender, RoutedEventArgs e)
         {
-            blueScore -= 10;
+            _blueScore -= 10;
+            BlueAfterScoreChange();
+        }
+
+        private void BlueAfterScoreChange()
+        {
+            BlueScore.Text = _blueScore.ToString();
+            CheckWinner();
+            if (_externalWindow != null)
+            {
+                _externalWindow.BlueScore_external.Text = _blueScore.ToString();
+            }
         }
 
         private void WhiteWazaPlus_Click(object sender, RoutedEventArgs e)
         {
-            whiteScore += 7;
+            _whiteScore += 7;
+            WhiteAfterScoreChange();
         }
 
         private void WhiteWazaMinus_Click(object sender, RoutedEventArgs e)
         {
-            whiteScore -= 7;
+            _whiteScore -= 7;
+            WhiteAfterScoreChange();
         }
 
         private void WhiteIpponPlus_Click(object sender, RoutedEventArgs e)
         {
-            whiteScore += 10;
+            _whiteScore += 10;
+            WhiteAfterScoreChange();
         }
 
         private void WhiteIpponMinus_Click(object sender, RoutedEventArgs e)
         {
-            whiteScore -= 10;
+            _whiteScore -= 10;
+            WhiteAfterScoreChange();
+        }
+
+        private void WhiteAfterScoreChange()
+        {
+            WhiteScore.Text = _whiteScore.ToString();
+            CheckWinner();
+            if (_externalWindow != null)
+            {
+                _externalWindow.WhiteScore_external.Text = _whiteScore.ToString();
+            }
         }
 
         #endregion
