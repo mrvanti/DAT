@@ -17,15 +17,16 @@ namespace DAT
         private const string _draw = "Draw";
         private int _blueScore = 7;
         private int _whiteScore = 7;
-        private System.Timers.Timer _timer = new System.Timers.Timer(1000.0);
+        private readonly System.Timers.Timer _timer = new System.Timers.Timer(1000.0);
         private ExternalWindow _externalWindow;
-        private int _maxTime = 2 * 60;
-        private Stopwatch _stopwatch = new Stopwatch();
-        private bool _mustStop => (_maxTime - _ticks) < 0;
-        private int _ticks = 0;
+        //private int _maxTime = 2 * 60;
+        private int _maxTime = 10;
+        private readonly Stopwatch _stopwatch = new Stopwatch();
+        private bool MustStop => (_maxTime - Ticks) < 0;
+        private int Ticks { get; set; }
         public TimeSpan TimeLeft =>
-           (_maxTime - _ticks) > 0
-           ? TimeSpan.FromSeconds(_maxTime - _ticks)
+           (_maxTime - Ticks) > 0
+           ? TimeSpan.FromSeconds(_maxTime - Ticks)
            : TimeSpan.FromMilliseconds(0);
 
         public MainWindow()
@@ -33,9 +34,13 @@ namespace DAT
             InitializeComponent();
             _externalWindow = new ExternalWindow();
             Clock_label.Text = _startTimeDisplay;
+            _externalWindow.BlueScore_external.Text = _blueScore.ToString();
+            _externalWindow.WhiteScore_external.Text = _whiteScore.ToString();
+            _externalWindow.Clock_external.Text = _startTimeDisplay;
 
             //update label text            
             _timer.Elapsed += OnTimeChanged;
+            Ticks = 0;
         }
 
         private void CheckWinner(bool timeUp = false)
@@ -60,8 +65,8 @@ namespace DAT
             {
                 ResetTextboxBorder();
                 _externalWindow.Result_external.Text = _blueWin;
-                _externalWindow.Result_external.Background = Brushes.Blue;
-                _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.Result_external.Background = Brushes.Red;
+                _externalWindow.Result_external.Foreground = Brushes.Blue;
                 _externalWindow.BlueScore_external.BorderThickness = new Thickness(4.0);
                 SetWinnerTextboxBorder();
                 return;
@@ -71,8 +76,8 @@ namespace DAT
             {
                 ResetTextboxBorder();
                 _externalWindow.Result_external.Text = _whiteWin;
-                _externalWindow.Result_external.Background = Brushes.White;
-                _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.Result_external.Background = Brushes.Red;
+                _externalWindow.Result_external.Foreground = Brushes.White;
                 _externalWindow.WhiteScore_external.BorderThickness = new Thickness(4.0);
                 SetWinnerTextboxBorder();
                 return;
@@ -80,11 +85,12 @@ namespace DAT
             if (_whiteScore == _blueScore)
             {
                 _externalWindow.Result_external.Text = _draw;
+                _externalWindow.Result_external.BorderBrush = Brushes.Red;
                 _externalWindow.Result_external.Background = Brushes.White;
                 _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
-                _externalWindow.Result_external.Background = Brushes.Blue;
                 _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
                 _externalWindow.WhiteScore_external.BorderThickness = new Thickness(4.0);
+                return;
             }
             ResetTextboxBorder();
         }
@@ -114,10 +120,10 @@ namespace DAT
 
         private void OnTimeChanged(object sender, EventArgs e)
         {
-            _ticks += 1;
+            Ticks += 1;
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (_mustStop)
+                if (MustStop)
                 {
                     CheckWinner(timeUp: true);
                 }
@@ -154,7 +160,7 @@ namespace DAT
         {
             Clock_label.Text = _startTimeDisplay;
             _externalWindow.Clock_external.Text = _startTimeDisplay;
-            _ticks = 0;
+            Ticks = 0;
             ResetTextboxBorder();
         }
 
@@ -250,17 +256,18 @@ namespace DAT
         private void ResetApp_Click(object sender, RoutedEventArgs e)
         {
             string resetScore = "7";
+            ResetClock_Click(sender, e);
             ResetTextboxBorder();
             _externalWindow.Result_external.Text = "";
+            _externalWindow.Result_external.Foreground = Brushes.Black;
+            _externalWindow.Result_external.Background = Brushes.White;
 
             //White
-            ResetTextboxBorder();
             _externalWindow.WhiteScore_external.Text = resetScore;
             WhiteScore.Text = resetScore;
             _whiteScore = 7;
 
             //Blue
-            ResetTextboxBorder();
             _externalWindow.BlueScore_external.Text = resetScore;
             BlueScore.Text = resetScore;
             _blueScore = 7;
