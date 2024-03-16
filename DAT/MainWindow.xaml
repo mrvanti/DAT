@@ -13,9 +13,9 @@
             <Setter Property="BorderThickness" Value="2px"></Setter>
             <Style.Resources>
                 <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="3"></Setter>
+                    <Setter Property="CornerRadius" Value="3"></Setter>                    
                 </Style>
-            </Style.Resources>
+            </Style.Resources>            
         </Style>
         <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox" x:Key="Label">
             <Setter Property="FontSize" Value="60"></Setter>
@@ -46,7 +46,7 @@
                 <TextBlock FontSize="25">Blue</TextBlock>
             </GroupBox.Header>
             <Grid>
-                <TextBox x:Name="BlueScore" IsReadOnly="True" Style="{StaticResource Label}" Background="Blue" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top"  TextWrapping="Wrap" Text="0"/>
+                <TextBox x:Name="BlueScore" IsReadOnly="True" Style="{StaticResource Label}" Background="Blue" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top"  TextWrapping="Wrap" Text="0" SelectionBrush="Black"/>
                 <Button x:Name="BlueWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="5,110,0,0" VerticalAlignment="Top" Click="BlueWazaPlus_Click" />
                 <Button x:Name="BlueWazaMinus" Content="Waza -7" HorizontalAlignment="Left" Margin="75,110,0,0" VerticalAlignment="Top" Click="BlueWazaMinus_Click" />
                 <Button x:Name="BlueIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="5,160,0,0" VerticalAlignment="Top" Click="BlueIpponPlus_Click" />
@@ -60,7 +60,7 @@
                 <TextBlock FontSize="25">White</TextBlock>
             </GroupBox.Header>
             <Grid>
-                <TextBox x:Name="WhiteScore" IsReadOnly="True" Style="{StaticResource Label}" Background="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
+                <TextBox x:Name="WhiteScore" IsReadOnly="True" Style="{StaticResource Label}" Background="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  TextWrapping="Wrap" Text="0" VerticalAlignment="Top" SelectionBrush="Black"/>
                 <Button x:Name="WhiteWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="5,110,0,0" VerticalAlignment="Top" Click="WhiteWazaPlus_Click" />
                 <Button x:Name="WhiteWazaMinus" Content="Waza -7" HorizontalAlignment="Left" Margin="75,110,0,0" VerticalAlignment="Top" Click="WhiteWazaMinus_Click" />
                 <Button x:Name="WhiteIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="5,160,0,0" VerticalAlignment="Top" Click="WhiteIpponPlus_Click" />
@@ -74,7 +74,7 @@
                 <TextBlock FontSize="25">Misc</TextBlock>
             </GroupBox.Header>
             <Grid>
-            <Button x:Name="ResetApp" Content="Reset" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center"/>
+            <Button x:Name="ResetApp" Content="Reset" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Click="ResetApp_Click"/>
             <Button x:Name="VisaExtern" Content="Visa Extern" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Click="VisaExtern_Click"/>
                 
             </Grid>
@@ -97,8 +97,7 @@
                     Margin="0,0,0,0" 
                     TextWrapping="Wrap" 
                     Text="0:00"  
-                    Width="130"
-                    TextChanged="TextBox_TextChanged"/>
+                    Width="130"/>
                 <Button x:Name="StartClock" HorizontalAlignment="Left" Margin="5, 0, 0, 0" Content="Start" Click="StartClock_Click"/>
                 <Button x:Name="StopClock" HorizontalAlignment="Right" Margin="0, 0, 5, 0" Content="Stop" ToolTip="Stop/Pause" Click="StopClock_Click"/>
                 <Button x:Name="ResetClock" HorizontalAlignment="Center" Margin="0, 75, 0, 0" Content="Reset" Click="ResetClock_Click"></Button>

@@ -15,8 +15,8 @@ namespace DAT
         private const string _blueWin = "Blue wins";
         private const string _whiteWin = "White wins";
         private const string _draw = "Draw";
-        private int _blueScore = 0;
-        private int _whiteScore = 0;
+        private int _blueScore = 7;
+        private int _whiteScore = 7;
         private System.Timers.Timer _timer = new System.Timers.Timer(1000.0);
         private ExternalWindow _externalWindow;
         private int _maxTime = 2 * 60;
@@ -34,15 +34,85 @@ namespace DAT
             _externalWindow = new ExternalWindow();
             Clock_label.Text = _startTimeDisplay;
 
-
             //update label text            
-            _timer.Elapsed += onTimeChanged;
-
-            // show messageBox on timer = 0:00.000
-            //_timer.CountDownFinished += () => MessageBox.Show("Timer finished the work!");
+            _timer.Elapsed += OnTimeChanged;
         }
 
-        private void onTimeChanged(object sender, EventArgs e)
+        private void CheckWinner(bool timeUp = false)
+        {
+            if (_externalWindow != null)
+            {
+                if (_blueScore - _whiteScore >= 30 || _whiteScore - _blueScore >= 30)
+                {
+                    CheckWinningScore();
+                }
+                if (timeUp)
+                {
+                    CheckWinningScore();
+                }
+            }
+        }
+        #region WinnerLogic
+
+        private void CheckWinningScore()
+        {
+            if (_blueScore > _whiteScore)
+            {
+                ResetTextboxBorder();
+                _externalWindow.Result_external.Text = _blueWin;
+                _externalWindow.Result_external.Background = Brushes.Blue;
+                _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.BlueScore_external.BorderThickness = new Thickness(4.0);
+                SetWinnerTextboxBorder();
+                return;
+            }
+
+            if (_whiteScore > _blueScore)
+            {
+                ResetTextboxBorder();
+                _externalWindow.Result_external.Text = _whiteWin;
+                _externalWindow.Result_external.Background = Brushes.White;
+                _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.WhiteScore_external.BorderThickness = new Thickness(4.0);
+                SetWinnerTextboxBorder();
+                return;
+            }
+            if (_whiteScore == _blueScore)
+            {
+                _externalWindow.Result_external.Text = _draw;
+                _externalWindow.Result_external.Background = Brushes.White;
+                _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.Result_external.Background = Brushes.Blue;
+                _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.WhiteScore_external.BorderThickness = new Thickness(4.0);
+            }
+            ResetTextboxBorder();
+        }
+
+        private void SetWinnerTextboxBorder()
+        {
+            _externalWindow.Result_external.BorderBrush = Brushes.Red;
+            _externalWindow.Result_external.BorderThickness = new Thickness(4.0);
+        }
+
+        #endregion
+
+        private void ResetTextboxBorder()
+        {
+            _externalWindow.Result_external.BorderBrush = Brushes.Black;
+            _externalWindow.Result_external.BorderThickness = new Thickness(2.0);
+
+            _externalWindow.WhiteScore_external.BorderBrush = Brushes.Black;
+            _externalWindow.WhiteScore_external.BorderThickness = new Thickness(2.0);
+
+            _externalWindow.BlueScore_external.BorderBrush = Brushes.Black;
+            _externalWindow.BlueScore_external.BorderThickness = new Thickness(2.0);
+        }
+
+
+        #region Clock
+
+        private void OnTimeChanged(object sender, EventArgs e)
         {
             _ticks += 1;
             Application.Current.Dispatcher.Invoke(() =>
@@ -57,43 +127,6 @@ namespace DAT
                     _externalWindow.Clock_external.Text = TimeLeft.ToString(@"m\:ss"); ;
                 }
             });
-        }
-
-        private void CheckWinner(bool timeUp = false)
-        {
-            if (_externalWindow != null)
-            {
-                if (_blueScore - _whiteScore >= 30 || _whiteScore - _blueScore >= 30)
-                {
-                    CheckWinningScore();
-                }
-                if (timeUp)
-                {
-                    CheckWinningScore();
-                    _externalWindow.Result_external.Text = _draw;
-                }
-            }
-        }
-        private void CheckWinningScore()
-        {
-            if (_blueScore > _whiteScore)
-            {
-                _externalWindow.Result_external.Text = _blueWin;
-                _externalWindow.Result_external.Background = Brushes.Blue;
-                _externalWindow.Result_external.BorderBrush = Brushes.Red;
-            }
-
-            if (_whiteScore > _blueScore)
-            {
-                _externalWindow.Result_external.Text = _whiteWin;
-                _externalWindow.Result_external.Background = Brushes.White;
-                _externalWindow.Result_external.BorderBrush = Brushes.Red;
-            }
-        }
-
-        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-
         }
 
         private void StartClock_Click(object sender, RoutedEventArgs e)
@@ -115,11 +148,14 @@ namespace DAT
             Reset();
         }
 
+        #endregion
+
         private void Reset()
         {
             Clock_label.Text = _startTimeDisplay;
             _externalWindow.Clock_external.Text = _startTimeDisplay;
             _ticks = 0;
+            ResetTextboxBorder();
         }
 
         private void VisaExtern_Click(object sender, RoutedEventArgs e)
@@ -210,5 +246,24 @@ namespace DAT
         }
 
         #endregion
+
+        private void ResetApp_Click(object sender, RoutedEventArgs e)
+        {
+            string resetScore = "7";
+            ResetTextboxBorder();
+            _externalWindow.Result_external.Text = "";
+
+            //White
+            ResetTextboxBorder();
+            _externalWindow.WhiteScore_external.Text = resetScore;
+            WhiteScore.Text = resetScore;
+            _whiteScore = 7;
+
+            //Blue
+            ResetTextboxBorder();
+            _externalWindow.BlueScore_external.Text = resetScore;
+            BlueScore.Text = resetScore;
+            _blueScore = 7;
+        }
     }
 }

@@ -33,10 +33,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" IsReadOnly="True" x:Name="Clock_external" Text="0:00" TextAlignment="Center" TextChanged="Clock_TextChanged" Padding="0,-30,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="0" Grid.Row="1" IsReadOnly="True" x:Name="BlueScore_external" Text="0" Background="Blue" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="2" Grid.Row="1" IsReadOnly="True" x:Name="WhiteScore_external" TextAlignment="Center" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="2" IsReadOnly="True" x:Name="Result_external" Width="auto" Padding="0,-35,0,0"/>
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" IsReadOnly="True" x:Name="Clock_external" Text="0:00" TextAlignment="Center" TextChanged="Clock_TextChanged" Padding="0,-30,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionBrush="Black"/>
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="0" Grid.Row="1" IsReadOnly="True" x:Name="BlueScore_external" Text="0" Background="Blue" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionBrush="Black" />
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="2" Grid.Row="1" IsReadOnly="True" x:Name="WhiteScore_external" TextAlignment="Center" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionBrush="Black"/>
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="2" IsReadOnly="True" x:Name="Result_external" Width="auto" TextAlignment="Center" Padding="0,0,0,0" SelectionBrush="Black"/>
 
     </Grid>
 </Window>
