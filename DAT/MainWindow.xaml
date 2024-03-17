@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DAT"
         mc:Ignorable="d"
-        Title="DAT" Height="800" Width="1200">
+        Title="DAT" Height="450" Width="800">
 
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
@@ -26,6 +26,8 @@
             <Setter Property="FontSize" Value="25"></Setter>
         </Style>
         <Style TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="65"/>
             <Style.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="3"></Setter>
@@ -39,64 +41,18 @@
     </Window.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <GroupBox  Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
+        <GroupBox  HorizontalAlignment="Left" Height="84" Margin="10,10,0,0" VerticalAlignment="Top">
             <GroupBox.Header>
                 <TextBlock FontSize="25">Game</TextBlock>
             </GroupBox.Header>
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Button Grid.Row="0" Grid.Column="" x:Name="ResetApp" Content="Reset" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Click="ResetApp_Click"/>
+                <Button x:Name="ResetApp" Content="Reset" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Click="ResetApp_Click"/>
                 <Button x:Name="VisaExtern" Content="Visa Extern" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Click="VisaExtern_Click"/>
-                <GroupBox Grid.Column="0" Grid.Row="1" >
-                    <GroupBox.Header>
-                        <TextBlock FontSize="25">Tid</TextBlock>
-                    </GroupBox.Header>
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBox Grid.Row="0" Grid.ColumnSpan="3" IsReadOnly="True" Style="{StaticResource Clock}" 
-                                 x:Name="Clock_label" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
-                                 Height="37" TextWrapping="Wrap" Text="0:00" />
-                        <Button Grid.Column="0" Grid.Row="1" x:Name="StartClock" Content="Start" Click="StartClock_Click"/>
-                        <Button Grid.Column="2" Grid.Row="1" x:Name="StopClock" Content="Stop" ToolTip="Stop/Pause" Click="StopClock_Click"/>
-                        <Button Grid.Column="1" Grid.Row="2" x:Name="ResetClock" Content="Reset" Click="ResetClock_Click"></Button>
-                    </Grid>
-                </GroupBox>
             </Grid>
         </GroupBox>
 
-        
-
-        <GroupBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
+        <GroupBox HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Margin="200,10,0,0">
             <GroupBox.Header>
                 <TextBlock FontSize="25">Blue</TextBlock>
             </GroupBox.Header>
@@ -120,7 +76,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Column="2" Grid.Row="0" Grid.RowSpan="2">
+        <GroupBox HorizontalAlignment="Left" Height="400" Margin="380,10,0,0" VerticalAlignment="Top">
             <GroupBox.Header>
                 <TextBlock FontSize="25">White</TextBlock>
             </GroupBox.Header>
@@ -134,6 +90,26 @@
             </Grid>
         </GroupBox>
 
-
+        <GroupBox HorizontalAlignment="Left" Height="160" Margin="10,100,0,0" VerticalAlignment="Top">
+            <GroupBox.Header>
+                <TextBlock FontSize="25">Tid</TextBlock>
+            </GroupBox.Header>
+            <Grid>
+                <TextBox IsReadOnly="True"
+                    Style="{StaticResource Clock}"
+                    x:Name="Clock_label" 
+                    VerticalContentAlignment="Center" 
+                    HorizontalContentAlignment="Center" 
+                    VerticalAlignment="Top"
+                    Height="37" 
+                    Margin="0,0,0,0" 
+                    TextWrapping="Wrap" 
+                    Text="0:00"  
+                    Width="130"/>
+                <Button x:Name="StartClock" HorizontalAlignment="Left" Margin="5, 0, 0, 0" Content="Start" Click="StartClock_Click"/>
+                <Button x:Name="StopClock" HorizontalAlignment="Right" Margin="0, 0, 5, 0" Content="Stop" ToolTip="Stop/Pause" Click="StopClock_Click"/>
+                <Button x:Name="ResetClock" HorizontalAlignment="Center" Margin="0, 75, 0, 0" Content="Reset" Click="ResetClock_Click"></Button>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>
