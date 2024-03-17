@@ -13,6 +13,7 @@
             <Setter Property="BorderThickness" Value="2px"></Setter>
             <Setter Property="Height" Value="auto"></Setter>
             <Setter Property="Width" Value="auto"></Setter>
+            <Setter Property="IsReadOnly" Value="True"></Setter>
             <Style.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="3"></Setter>
@@ -33,13 +34,14 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" IsReadOnly="True" x:Name="Clock_external" Text="0:00" TextAlignment="Center" Padding="0,-30,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="0" Grid.Row="1" IsReadOnly="True" x:Name="BlueScore_external" Text="0" Background="Blue" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" x:Name="Clock_external" Text="0:00" TextAlignment="Center" Padding="0,-30,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="0" Grid.Row="1" x:Name="BlueScore_external" Text="0" Background="Blue" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="0" Grid.Row="2" Visibility="Hidden" BorderThickness="0" x:Name="HoldTimerBlueExt" Text=":00" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="2" Grid.Row="2" Visibility="Hidden" BorderThickness="0" x:Name="HoldTimerWhiteExt" Text=":00" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
         
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Visibility="Hidden" BorderThickness="0" Grid.Column="1" Grid.Row="1" IsReadOnly="True" x:Name="Hold_timer_external" Text=":00" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-        
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="2" Grid.Row="1" IsReadOnly="True" x:Name="WhiteScore_external" TextAlignment="Center" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="2" IsReadOnly="True" x:Name="Result_external" Width="auto" TextAlignment="Center" Padding="0,0,0,0"/>
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="2" Grid.Row="1" x:Name="WhiteScore_external" TextAlignment="Center" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="2" x:Name="Result_external" Width="auto" TextAlignment="Center" Padding="0,0,0,0"/>
 
     </Grid>
 </Window>
