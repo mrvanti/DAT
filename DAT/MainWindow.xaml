@@ -79,9 +79,9 @@
                         <Grid>
                             <TextBox x:Name="BlueHoldTimer" Style="{StaticResource Clock}" IsReadOnly="True" Margin="15,10,15,0"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Text=":00"/>
 
-                            <Button x:Name="BlueHoldStart" Content="Start" Margin="5,0,20,-20" VerticalAlignment="Center" HorizontalAlignment="Left"></Button>
-                            <Button x:Name="BlueHoldStop" Content="Stop" Margin="0,0,5,-20" VerticalAlignment="Center" HorizontalAlignment="Right"></Button>
-                            <Button x:Name="BlueHoldReset" Content="Reset" Margin="0,0,0,-90" VerticalAlignment="Center" HorizontalAlignment="Center"></Button>
+                            <Button x:Name="BlueHoldStart" Content="Start" Margin="5,0,20,-20" VerticalAlignment="Center" HorizontalAlignment="Left" Click="BlueHoldStart_Click"></Button>
+                            <Button x:Name="BlueHoldStop" Content="Stop" Margin="0,0,5,-20" VerticalAlignment="Center" HorizontalAlignment="Right" Click="BlueHoldStop_Click"></Button>
+                            <Button x:Name="BlueHoldReset" Content="Reset" Margin="0,0,0,-90" VerticalAlignment="Center" HorizontalAlignment="Center" Click="BlueHoldReset_Click"></Button>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -104,9 +104,9 @@
                         <Grid>
                             <TextBox x:Name="WhiteHoldTimer" Style="{StaticResource Clock}" IsReadOnly="True" Margin="15,10,15,0"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Text=":00"/>
 
-                            <Button x:Name="WhiteHoldStart" Content="Start" Margin="5,0,20,-20" VerticalAlignment="Center" HorizontalAlignment="Left"></Button>
-                            <Button x:Name="WhiteHoldStop" Content="Stop" Margin="0,0,5,-20" VerticalAlignment="Center" HorizontalAlignment="Right"></Button>
-                            <Button x:Name="WhiteHoldReset" Content="Reset" Margin="0,0,0,-90" VerticalAlignment="Center" HorizontalAlignment="Center"></Button>
+                            <Button x:Name="WhiteHoldStart" Content="Start" Margin="5,0,20,-20" VerticalAlignment="Center" HorizontalAlignment="Left" Click="WhiteHoldStart_Click"></Button>
+                            <Button x:Name="WhiteHoldStop" Content="Stop" Margin="0,0,5,-20" VerticalAlignment="Center" HorizontalAlignment="Right" Click="WhiteHoldStop_Click"></Button>
+                            <Button x:Name="WhiteHoldReset" Content="Reset" Margin="0,0,0,-90" VerticalAlignment="Center" HorizontalAlignment="Center" Click="WhiteHoldReset_Click"></Button>
                         </Grid>
                     </GroupBox>
                 </Grid>

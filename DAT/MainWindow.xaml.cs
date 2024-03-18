@@ -11,23 +11,13 @@ namespace DAT
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string _startTimeDisplay = "2:00";
         private const string _blueWin = "Blue wins";
         private const string _whiteWin = "White wins";
         private const string _draw = "Draw";
         private int _blueScore = 7;
         private int _whiteScore = 7;
-        private readonly System.Timers.Timer _timer = new System.Timers.Timer(1000.0);
         private ExternalWindow _externalWindow;
-        //private int _maxTime = 2 * 60;
-        private int _maxTime = 10;
-        private readonly Stopwatch _stopwatch = new Stopwatch();
-        private bool MustStop => (_maxTime - Ticks) < 0;
-        private int Ticks { get; set; }
-        public TimeSpan TimeLeft =>
-           (_maxTime - Ticks) > 0
-           ? TimeSpan.FromSeconds(_maxTime - Ticks)
-           : TimeSpan.FromMilliseconds(0);
+        
 
         public MainWindow()
         {
@@ -39,8 +29,9 @@ namespace DAT
             _externalWindow.Clock_external.Text = _startTimeDisplay;
 
             //update label text            
-            _timer.Elapsed += OnTimeChanged;
-            Ticks = 0;
+            _clockTimer.Elapsed += OnTimeChanged;
+            
+            ClockTicks = 0;
         }
 
         private void CheckWinner(bool timeUp = false)
@@ -118,9 +109,20 @@ namespace DAT
 
         #region Clock
 
+        private const string _startTimeDisplay = "2:00";
+        private readonly System.Timers.Timer _clockTimer = new System.Timers.Timer(1000.0);
+        //private int _maxTime = 2 * 60;
+        private int MaxTime => 10;
+        private bool MustStop => (MaxTime - ClockTicks) < 0;
+        private int ClockTicks { get; set; }
+        public TimeSpan TimeLeft =>
+           (MaxTime - ClockTicks) > 0
+           ? TimeSpan.FromSeconds(MaxTime - ClockTicks)
+           : TimeSpan.FromMilliseconds(0);
+
         private void OnTimeChanged(object sender, EventArgs e)
         {
-            Ticks += 1;
+            ClockTicks += 1;
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (MustStop)
@@ -130,39 +132,137 @@ namespace DAT
                 Clock_label.Text = TimeLeft.ToString(@"m\:ss"); ;
                 if (_externalWindow != null)
                 {
-                    _externalWindow.Clock_external.Text = TimeLeft.ToString(@"m\:ss"); ;
+                    _externalWindow.Clock_external.Text = TimeLeft.ToString(@"m\:ss");
                 }
             });
         }
 
         private void StartClock_Click(object sender, RoutedEventArgs e)
         {
-            _timer.Start();
-            _stopwatch.Start();
+            _clockTimer.Start();
         }
 
         private void StopClock_Click(object sender, RoutedEventArgs e)
         {
-            _timer.Stop();
-            _stopwatch.Stop();
+            _clockTimer.Stop();
         }
 
         private void ResetClock_Click(object sender, RoutedEventArgs e)
         {
-            _stopwatch.Reset();
-            _timer.Stop();
-            Reset();
+            _clockTimer.Stop();
+            Clock_label.Text = _startTimeDisplay;
+            _externalWindow.Clock_external.Text = _startTimeDisplay;
+            ClockTicks = 0;
+            ResetTextboxBorder();
         }
 
         #endregion
 
-        private void Reset()
+        #region HolderTimer
+
+        private int HolderTimerTicks { get; set; }
+        private const string _holderReset = ":00";
+        private int HolderWazari => 10;
+        private int HolderIppon => 20;
+
+        private readonly System.Timers.Timer _holdTimer = new System.Timers.Timer(1000.0);
+        private string HoldScoreType {  get; set; }
+
+
+        private void BlueHoldStart_Click(object sender, RoutedEventArgs e)
         {
-            Clock_label.Text = _startTimeDisplay;
-            _externalWindow.Clock_external.Text = _startTimeDisplay;
-            Ticks = 0;
-            ResetTextboxBorder();
+            _holdTimer.Elapsed += OnBlueHoldTimerChanged;
+            _holdTimer.Start();
         }
+
+        private void BlueHoldStop_Click(object sender, RoutedEventArgs e)
+        {
+            _holdTimer.Stop();
+        }
+
+        private void BlueHoldReset_Click(object sender, RoutedEventArgs e)
+        {
+            _holdTimer.Stop();
+            _holdTimer.Elapsed -= OnBlueHoldTimerChanged;
+            _externalWindow.HoldTimerBlueExt.Text = _holderReset;
+            BlueHoldTimer.Text = _holderReset;
+            HolderTimerTicks = 0;
+        }
+
+        private void OnBlueHoldTimerChanged(object sender, EventArgs e)
+        {
+            HolderTimerTicks += 1;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (MustStop)
+                {
+                    _holdTimer.Stop();
+                }
+                var currentHoldTime = ":" + HolderTimerTicks.ToString();
+                BlueHoldTimer.Text = currentHoldTime;
+                if (_externalWindow != null)
+                {
+                    _externalWindow.HoldTimerBlueExt.Text = currentHoldTime;
+                    _externalWindow.HoldScoreTypeBlueExt.Text = HoldScoreType;
+                }
+            });
+        }
+
+        private void WhiteHoldStart_Click(object sender, RoutedEventArgs e)
+        {
+            BlueHoldReset_Click(sender, e);
+            _holdTimer.Elapsed += OnWhiteHoldTimerChanged;
+            _holdTimer.Start();
+        }
+
+        private void WhiteHoldStop_Click(object sender, RoutedEventArgs e)
+        {
+            _holdTimer.Stop();
+        }
+
+        private void WhiteHoldReset_Click(object sender, RoutedEventArgs e)
+        {
+            _holdTimer.Stop();
+            _holdTimer.Elapsed -= OnWhiteHoldTimerChanged;
+            _externalWindow.HoldTimerWhiteExt.Text = _holderReset;
+            WhiteHoldTimer.Text = _holderReset;
+            HolderTimerTicks = 0;
+        }
+
+        private void OnWhiteHoldTimerChanged(object sender, EventArgs e)
+        {
+            HolderTimerTicks += 1;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (MustStop)
+                {
+                    _holdTimer.Stop();
+                }
+                var currentHoldTime = ":" + HolderTimerTicks.ToString();
+                WhiteHoldTimer.Text = currentHoldTime;
+                if (_externalWindow != null)
+                {
+                    _externalWindow.HoldTimerWhiteExt.Text = currentHoldTime;
+                    _externalWindow.HoldScoreTypeWhiteExt.Text = HoldScoreType;
+                }
+            });
+        }
+
+        private string CheckHoldScoreType(int holdTime)
+        {
+            if(holdTime >= HolderWazari && holdTime < HolderIppon)
+            {
+                return "Wazari";
+            }
+            if(holdTime >= HolderIppon)
+            {
+                return "Ippon";
+            }
+            return "";
+        }
+
+
+        #endregion
 
         private void VisaExtern_Click(object sender, RoutedEventArgs e)
         {
@@ -272,5 +372,6 @@ namespace DAT
             BlueScore.Text = resetScore;
             _blueScore = 7;
         }
+
     }
 }
