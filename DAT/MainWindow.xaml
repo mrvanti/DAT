@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DAT"
         mc:Ignorable="d"
-        Title="DAT" Height="450" Width="800">
+        Title="DAT" Height="600" Width="1000">
 
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
@@ -34,82 +34,85 @@
                 </Style>
             </Style.Resources>
         </Style>
-        <Style TargetType="{x:Type GroupBox}">
-            <Setter Property="Width" Value="158"></Setter>
-        </Style>
 
     </Window.Resources>
 
-    <Grid>
-        <GroupBox  HorizontalAlignment="Left" Height="84" Margin="10,10,0,0" VerticalAlignment="Top">
-            <GroupBox.Header>
-                <TextBlock FontSize="25">Game</TextBlock>
-            </GroupBox.Header>
-            <Grid>
-                <Button x:Name="ResetApp" Content="Reset" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Click="ResetApp_Click"/>
-                <Button x:Name="VisaExtern" Content="Visa Extern" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Click="VisaExtern_Click"/>
+    <Viewbox>
+        <Grid>
+            <GroupBox  HorizontalAlignment="Left" Height="300" Width="180" Margin="10,10,0,0" VerticalAlignment="Top">
+                <GroupBox.Header>
+                    <TextBlock FontSize="25">Game</TextBlock>
+                </GroupBox.Header>
+                <Grid>
+                    <Button x:Name="ResetApp" Content="Reset" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Click="ResetApp_Click"/>
+                    <Button x:Name="VisaExtern" Content="Visa Extern" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Click="VisaExtern_Click"/>
+                    <GroupBox Width="160" HorizontalAlignment="Center" Height="160" >
+                        <GroupBox.Header>
+                            <TextBlock FontSize="15">Tid</TextBlock>
+                        </GroupBox.Header>
+                        <Grid>
+                            <TextBox IsReadOnly="True" Style="{StaticResource Clock}" x:Name="Clock_label" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+                                     VerticalAlignment="Top" Height="37" Margin="10,0,10,0" TextWrapping="Wrap" Text="0:00" />
+                            <Button x:Name="StartClock" HorizontalAlignment="Left" Margin="5, 0, 0, 0" Content="Start" Click="StartClock_Click"/>
+                            <Button x:Name="StopClock" HorizontalAlignment="Right" Margin="0, 0, 5, 0" Content="Stop" ToolTip="Stop/Pause" Click="StopClock_Click"/>
+                            <Button x:Name="ResetClock" HorizontalAlignment="Center" Margin="0, 75, 0, 0" Content="Reset" Click="ResetClock_Click"></Button>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </GroupBox>
 
-            </Grid>
-        </GroupBox>
 
-        <GroupBox HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Margin="200,10,0,0">
-            <GroupBox.Header>
-                <TextBlock FontSize="25">Blue</TextBlock>
-            </GroupBox.Header>
-            <Grid>
-                <TextBox x:Name="BlueScore" IsReadOnly="True" Style="{StaticResource Label}" Background="Blue" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top"  TextWrapping="Wrap" Text="0"/>
-                <Button x:Name="BlueWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="5,110,0,0" VerticalAlignment="Top" Click="BlueWazaPlus_Click" />
-                <Button x:Name="BlueWazaMinus" Content="Waza -7" HorizontalAlignment="Left" Margin="75,110,0,0" VerticalAlignment="Top" Click="BlueWazaMinus_Click" />
-                <Button x:Name="BlueIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="5,160,0,0" VerticalAlignment="Top" Click="BlueIpponPlus_Click" />
-                <Button x:Name="BlueIpponMinus" Content="Ippon -10" HorizontalAlignment="Left" Margin="75,160,0,0" VerticalAlignment="Top" Click="BlueIpponMinus_Click" />
-                <GroupBox HorizontalAlignment="Center" Height="150" VerticalAlignment="Bottom" Margin="0,0,0,10">
-                    <GroupBox.Header>
-                        <TextBlock FontSize="15">Fasthållning</TextBlock>
-                    </GroupBox.Header>
-                    <Grid>
-                        <TextBox x:Name="BlueHoldTimer" Style="{StaticResource Clock}" IsReadOnly="True" Margin="20,10,20,0"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Text=":00"/>
+            <GroupBox HorizontalAlignment="Left" Height="400" Width="180" VerticalAlignment="Top" Margin="200,10,0,0">
+                <GroupBox.Header>
+                    <TextBlock FontSize="25">Blue</TextBlock>
+                </GroupBox.Header>
+                <Grid>
+                    <TextBox x:Name="BlueScore" IsReadOnly="True" Style="{StaticResource Label}" Background="Blue" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top"  TextWrapping="Wrap" Text="7"/>
+                    <Button x:Name="BlueWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Click="BlueWazaPlus_Click" />
+                    <Button x:Name="BlueWazaMinus" Content="Waza -7" HorizontalAlignment="Right" Margin="0,110,10,0" VerticalAlignment="Top" Click="BlueWazaMinus_Click" />
+                    <Button x:Name="BlueIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Click="BlueIpponPlus_Click" />
+                    <Button x:Name="BlueIpponMinus" Content="Ippon -10" HorizontalAlignment="Right" Margin="0,160,10,0" VerticalAlignment="Top" Click="BlueIpponMinus_Click" />
+                    <GroupBox HorizontalAlignment="Center" Height="150" Width="160" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <GroupBox.Header>
+                            <TextBlock FontSize="15">Fasthållning</TextBlock>
+                        </GroupBox.Header>
+                        <Grid>
+                            <TextBox x:Name="BlueHoldTimer" Style="{StaticResource Clock}" IsReadOnly="True" Margin="15,10,15,0"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Text=":00"/>
 
-                        <Button x:Name="BlueHoldStart" Content="Start" Margin="5,0,20,-50" VerticalAlignment="Center" HorizontalAlignment="Left"></Button>
-                        <Button x:Name="BlueHoldStop" Content="Stop" Margin="0,0,5,-50" VerticalAlignment="Center" HorizontalAlignment="Right"></Button>
-                    </Grid>
-                </GroupBox>
-            </Grid>
-        </GroupBox>
+                            <Button x:Name="BlueHoldStart" Content="Start" Margin="5,0,20,-20" VerticalAlignment="Center" HorizontalAlignment="Left"></Button>
+                            <Button x:Name="BlueHoldStop" Content="Stop" Margin="0,0,5,-20" VerticalAlignment="Center" HorizontalAlignment="Right"></Button>
+                            <Button x:Name="BlueHoldReset" Content="Reset" Margin="0,0,0,-90" VerticalAlignment="Center" HorizontalAlignment="Center"></Button>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </GroupBox>
 
-        <GroupBox HorizontalAlignment="Left" Height="400" Margin="380,10,0,0" VerticalAlignment="Top">
-            <GroupBox.Header>
-                <TextBlock FontSize="25">White</TextBlock>
-            </GroupBox.Header>
-            <Grid>
-                <TextBox x:Name="WhiteScore" IsReadOnly="True" Style="{StaticResource Label}" Background="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
-                <Button x:Name="WhiteWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="5,110,0,0" VerticalAlignment="Top" Click="WhiteWazaPlus_Click" />
-                <Button x:Name="WhiteWazaMinus" Content="Waza -7" HorizontalAlignment="Left" Margin="75,110,0,0" VerticalAlignment="Top" Click="WhiteWazaMinus_Click" />
-                <Button x:Name="WhiteIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="5,160,0,0" VerticalAlignment="Top" Click="WhiteIpponPlus_Click" />
-                <Button x:Name="WhiteIpponMinus" Content="Ippon -10" HorizontalAlignment="Left" Margin="75,160,0,0" VerticalAlignment="Top" Click="WhiteIpponMinus_Click" />
+            <GroupBox HorizontalAlignment="Left" Height="400" Width="180" Margin="400,10,0,0" VerticalAlignment="Top">
+                <GroupBox.Header>
+                    <TextBlock FontSize="25">White</TextBlock>
+                </GroupBox.Header>
+                <Grid>
+                    <TextBox x:Name="WhiteScore" Style="{StaticResource Label}" Background="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  TextWrapping="Wrap" Text="7" VerticalAlignment="Top"/>
+                    <Button x:Name="WhiteWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Click="WhiteWazaPlus_Click" />
+                    <Button x:Name="WhiteWazaMinus" Content="Waza -7" HorizontalAlignment="Right" Margin="0,110,10,0" VerticalAlignment="Top" Click="WhiteWazaMinus_Click" />
+                    <Button x:Name="WhiteIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Click="WhiteIpponPlus_Click" />
+                    <Button x:Name="WhiteIpponMinus" Content="Ippon -10" HorizontalAlignment="Right" Margin="0,160,10,0" VerticalAlignment="Top" Click="WhiteIpponMinus_Click" />
+                    <GroupBox HorizontalAlignment="Center" Height="150" Width="160" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <GroupBox.Header>
+                            <TextBlock FontSize="15">Fasthållning</TextBlock>
+                        </GroupBox.Header>
+                        <Grid>
+                            <TextBox x:Name="WhiteHoldTimer" Style="{StaticResource Clock}" IsReadOnly="True" Margin="15,10,15,0"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Text=":00"/>
 
-            </Grid>
-        </GroupBox>
+                            <Button x:Name="WhiteHoldStart" Content="Start" Margin="5,0,20,-20" VerticalAlignment="Center" HorizontalAlignment="Left"></Button>
+                            <Button x:Name="WhiteHoldStop" Content="Stop" Margin="0,0,5,-20" VerticalAlignment="Center" HorizontalAlignment="Right"></Button>
+                            <Button x:Name="WhiteHoldReset" Content="Reset" Margin="0,0,0,-90" VerticalAlignment="Center" HorizontalAlignment="Center"></Button>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </GroupBox>
 
-        <GroupBox HorizontalAlignment="Left" Height="160" Margin="10,100,0,0" VerticalAlignment="Top">
-            <GroupBox.Header>
-                <TextBlock FontSize="25">Tid</TextBlock>
-            </GroupBox.Header>
-            <Grid>
-                <TextBox IsReadOnly="True"
-                    Style="{StaticResource Clock}"
-                    x:Name="Clock_label" 
-                    VerticalContentAlignment="Center" 
-                    HorizontalContentAlignment="Center" 
-                    VerticalAlignment="Top"
-                    Height="37" 
-                    Margin="0,0,0,0" 
-                    TextWrapping="Wrap" 
-                    Text="0:00"  
-                    Width="130"/>
-                <Button x:Name="StartClock" HorizontalAlignment="Left" Margin="5, 0, 0, 0" Content="Start" Click="StartClock_Click"/>
-                <Button x:Name="StopClock" HorizontalAlignment="Right" Margin="0, 0, 5, 0" Content="Stop" ToolTip="Stop/Pause" Click="StopClock_Click"/>
-                <Button x:Name="ResetClock" HorizontalAlignment="Center" Margin="0, 75, 0, 0" Content="Reset" Click="ResetClock_Click"></Button>
-            </Grid>
-        </GroupBox>
-    </Grid>
+
+        </Grid>
+    </Viewbox>
 </Window>
