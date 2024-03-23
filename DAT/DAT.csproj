@@ -22,7 +22,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </Resource>
-    <Resource Include="judo.ico" />
   </ItemGroup>
 
 </Project>
