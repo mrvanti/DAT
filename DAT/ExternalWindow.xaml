@@ -44,10 +44,10 @@
             </Grid.RowDefinitions>
 
             <Viewbox Grid.Row="0">
-                <TextBox x:Name="HoldScoreTypeBlueExt"  Visibility="Hidden" BorderThickness="0" Text="" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="HoldScoreTypeBlueExt" BorderThickness="0" Text="" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Viewbox>
             <Viewbox Grid.Row="1">
-                <TextBox x:Name="HoldTimerBlueExt" Visibility="Hidden" BorderThickness="0"  Text=":00" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBox x:Name="HoldTimerBlueExt" BorderThickness="0"  Text="" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
             </Viewbox>
         </Grid>
 
@@ -57,10 +57,10 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Viewbox Grid.Row="0">
-                <TextBox Visibility="Hidden" BorderThickness="0" x:Name="HoldScoreTypeWhiteExt" Text="" Foreground="LightGreen" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="HoldScoreTypeWhiteExt" BorderThickness="0" Text="" Foreground="LightGreen" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Viewbox>
             <Viewbox Grid.Row="1">
-                <TextBox Visibility="Hidden" BorderThickness="0" x:Name="HoldTimerWhiteExt" Text=":00" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBox x:Name="HoldTimerWhiteExt" BorderThickness="0" Text="" Background="White" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
             </Viewbox>
         </Grid>
 
