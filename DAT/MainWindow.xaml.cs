@@ -17,7 +17,7 @@ namespace DAT
         private int _blueScore = 7;
         private int _whiteScore = 7;
         private ExternalWindow _externalWindow;
-        
+
 
         public MainWindow()
         {
@@ -30,22 +30,18 @@ namespace DAT
 
             //update label text            
             _clockTimer.Elapsed += OnTimeChanged;
-            
+
             ClockTicks = 0;
         }
 
-        private void CheckWinner(bool timeUp = false)
+        private void CheckWinner()
         {
             if (_externalWindow != null)
             {
-                if (_blueScore - _whiteScore >= 30 || _whiteScore - _blueScore >= 30)
+                if (_blueScore - _whiteScore >= 30 || _whiteScore - _blueScore >= 30 || MustStop)
                 {
                     CheckWinningScore();
-                }
-                if (timeUp)
-                {
-                    CheckWinningScore();
-                }
+                }                
             }
         }
         #region WinnerLogic
@@ -80,6 +76,7 @@ namespace DAT
                 _externalWindow.Result_external.Background = Brushes.White;
                 _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
                 _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.BlueScore_external.BorderThickness = new Thickness(4.0);
                 _externalWindow.WhiteScore_external.BorderThickness = new Thickness(4.0);
                 return;
             }
@@ -112,7 +109,7 @@ namespace DAT
         private const string _startTimeDisplay = "2:00";
         private readonly System.Timers.Timer _clockTimer = new System.Timers.Timer(1000.0);
         //private int _maxTime = 2 * 60;
-        private int MaxTime => 10;
+        private int MaxTime => 5;
         private bool MustStop => (MaxTime - ClockTicks) < 0;
         private int ClockTicks { get; set; }
         public TimeSpan TimeLeft =>
@@ -127,7 +124,7 @@ namespace DAT
             {
                 if (MustStop)
                 {
-                    CheckWinner(timeUp: true);
+                    CheckWinner();
                 }
                 Clock_label.Text = TimeLeft.ToString(@"m\:ss"); ;
                 if (_externalWindow != null)
@@ -166,11 +163,10 @@ namespace DAT
         private int HolderIppon => 20;
 
         private readonly System.Timers.Timer _holdTimer = new System.Timers.Timer(1000.0);
-        private string HoldScoreType {  get; set; }
-
 
         private void BlueHoldStart_Click(object sender, RoutedEventArgs e)
         {
+            WhiteHoldReset_Click(sender, e);
             _holdTimer.Elapsed += OnBlueHoldTimerChanged;
             _holdTimer.Start();
         }
@@ -192,6 +188,7 @@ namespace DAT
         private void OnBlueHoldTimerChanged(object sender, EventArgs e)
         {
             HolderTimerTicks += 1;
+            var holdScoreType = CheckHoldScoreType(HolderTimerTicks);
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (MustStop)
@@ -202,8 +199,18 @@ namespace DAT
                 BlueHoldTimer.Text = currentHoldTime;
                 if (_externalWindow != null)
                 {
+                    _externalWindow.HoldTimerBlueExt.Visibility = Visibility.Visible;
                     _externalWindow.HoldTimerBlueExt.Text = currentHoldTime;
-                    _externalWindow.HoldScoreTypeBlueExt.Text = HoldScoreType;
+                    _externalWindow.HoldScoreTypeBlueExt.Text = holdScoreType;
+
+                    if (!string.IsNullOrEmpty(holdScoreType))
+                    {
+                        _externalWindow.HoldScoreTypeBlueExt.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        _externalWindow.HoldScoreTypeBlueExt.Visibility = Visibility.Hidden;
+                    }
                 }
             });
         }
@@ -225,6 +232,7 @@ namespace DAT
             _holdTimer.Stop();
             _holdTimer.Elapsed -= OnWhiteHoldTimerChanged;
             _externalWindow.HoldTimerWhiteExt.Text = _holderReset;
+            _externalWindow.HoldTimerWhiteExt.Visibility = Visibility.Hidden;
             WhiteHoldTimer.Text = _holderReset;
             HolderTimerTicks = 0;
         }
@@ -232,6 +240,7 @@ namespace DAT
         private void OnWhiteHoldTimerChanged(object sender, EventArgs e)
         {
             HolderTimerTicks += 1;
+            var holdScoreType = CheckHoldScoreType(HolderTimerTicks);
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (MustStop)
@@ -243,18 +252,27 @@ namespace DAT
                 if (_externalWindow != null)
                 {
                     _externalWindow.HoldTimerWhiteExt.Text = currentHoldTime;
-                    _externalWindow.HoldScoreTypeWhiteExt.Text = HoldScoreType;
+
+                    if (!string.IsNullOrEmpty(holdScoreType))
+                    {
+                        _externalWindow.HoldScoreTypeWhiteExt.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        _externalWindow.HoldScoreTypeWhiteExt.Visibility = Visibility.Hidden;
+                    }
+                    _externalWindow.HoldScoreTypeWhiteExt.Text = holdScoreType;
                 }
             });
         }
 
         private string CheckHoldScoreType(int holdTime)
         {
-            if(holdTime >= HolderWazari && holdTime < HolderIppon)
+            if (holdTime >= HolderWazari && holdTime < HolderIppon)
             {
                 return "Wazari";
             }
-            if(holdTime >= HolderIppon)
+            if (holdTime >= HolderIppon)
             {
                 return "Ippon";
             }

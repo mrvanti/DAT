@@ -1,5 +1,6 @@
 ﻿
 using System.Windows;
+using System.Windows.Media;
 namespace DAT
 {
     /// <summary>
@@ -11,6 +12,9 @@ namespace DAT
         {
             InitializeComponent();
             Closing += OnClose;
+            var textColor = new SolidColorBrush(Color.FromArgb(255, 0, 153, 51));
+            HoldScoreTypeBlueExt.Foreground = textColor;
+            HoldScoreTypeWhiteExt.Foreground = textColor;
         }
 
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
