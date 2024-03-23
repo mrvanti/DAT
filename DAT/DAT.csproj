@@ -4,6 +4,25 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <PackageIcon>judo.ico</PackageIcon>
+    <ApplicationIcon>Content\judo.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Content\judo.ico" />
+    <None Remove="judo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\judo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Content\judo.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Resource>
+    <Resource Include="judo.ico" />
+  </ItemGroup>
 
 </Project>
