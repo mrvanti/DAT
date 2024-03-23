@@ -62,7 +62,7 @@
             </GroupBox>
 
 
-            <GroupBox HorizontalAlignment="Left" Height="400" Width="180" VerticalAlignment="Top" Margin="200,10,0,0">
+            <GroupBox HorizontalAlignment="Left" Height="400" Width="180" VerticalAlignment="Top" Margin="400,10,0,0">
                 <GroupBox.Header>
                     <TextBlock FontSize="25">Blue</TextBlock>
                 </GroupBox.Header>
@@ -87,7 +87,7 @@
                 </Grid>
             </GroupBox>
 
-            <GroupBox HorizontalAlignment="Left" Height="400" Width="180" Margin="400,10,0,0" VerticalAlignment="Top">
+            <GroupBox HorizontalAlignment="Left" Height="400" Width="180" Margin="200,10,0,0" VerticalAlignment="Top">
                 <GroupBox.Header>
                     <TextBlock FontSize="25">White</TextBlock>
                 </GroupBox.Header>
