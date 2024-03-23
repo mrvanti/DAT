@@ -34,7 +34,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" x:Name="Clock_external" Text="0:00" TextAlignment="Center" Padding="0,-30,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" x:Name="Clock_external" Text="0:00" TextAlignment="Center" Padding="0,-20,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="0" Grid.Row="1" x:Name="BlueScore_external" Text="0" Background="Blue" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
         <Grid Grid.Column="0" Grid.Row="2">

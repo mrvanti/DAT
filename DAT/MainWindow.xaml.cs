@@ -11,9 +11,9 @@ namespace DAT
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string _blueWin = "Blue wins";
-        private const string _whiteWin = "White wins";
-        private const string _draw = "Draw";
+        private const string _blueWin = "Blå vinner";
+        private const string _whiteWin = "Vit vinner";
+        private const string _draw = "Oavgjort";
         private int _blueScore = 7;
         private int _whiteScore = 7;
         private ExternalWindow _externalWindow;
@@ -108,8 +108,7 @@ namespace DAT
 
         private const string _startTimeDisplay = "2:00";
         private readonly System.Timers.Timer _clockTimer = new System.Timers.Timer(1000.0);
-        //private int _maxTime = 2 * 60;
-        private int MaxTime => 5;
+        private int MaxTime => 2*60;
         private bool MustStop => (MaxTime - ClockTicks) < 0;
         private int ClockTicks { get; set; }
         public TimeSpan TimeLeft =>

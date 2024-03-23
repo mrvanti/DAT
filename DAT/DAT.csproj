@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Content\judo.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Content\judo.ico">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
