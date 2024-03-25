@@ -51,8 +51,8 @@ namespace DAT
             if (_blueScore > _whiteScore)
             {
                 winner = _blueWin;
-                _externalWindow.Result_external.Background = Brushes.Red;
                 _externalWindow.BlueScore_external.BorderThickness = fatBorder;
+                _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
                 _externalWindow.BlueImage.Source = new BitmapImage(new Uri("Content/trophy.png", UriKind.Relative));
                 SetWinnerTextboxBorder();
             }
@@ -60,8 +60,8 @@ namespace DAT
             if (_whiteScore > _blueScore)
             {
                 winner = _whiteWin;
-                _externalWindow.Result_external.Background = Brushes.Red;
                 _externalWindow.WhiteScore_external.BorderThickness = fatBorder;
+                _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
                 _externalWindow.WhiteImage.Source = new BitmapImage(new Uri("Content/trophy.png", UriKind.Relative));
                 SetWinnerTextboxBorder();
             }
@@ -90,14 +90,11 @@ namespace DAT
 
         private void ResetTextboxBorder()
         {
-            _externalWindow.Result_external.BorderBrush = Brushes.Black;
-            _externalWindow.Result_external.BorderThickness = fatBorder;
-
             _externalWindow.WhiteScore_external.BorderBrush = Brushes.Black;
-            _externalWindow.WhiteScore_external.BorderThickness = fatBorder;
+            _externalWindow.WhiteScore_external.BorderThickness = lightBorder;
 
             _externalWindow.BlueScore_external.BorderBrush = Brushes.Black;
-            _externalWindow.BlueScore_external.BorderThickness = fatBorder;
+            _externalWindow.BlueScore_external.BorderThickness = lightBorder;
         }
 
 

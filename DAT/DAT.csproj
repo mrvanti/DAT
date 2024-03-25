@@ -27,7 +27,6 @@
     </Resource>
     <Resource Include="Content\scales.png" />
     <Resource Include="Content\trophy.png" />
-    <Resource Include="trophy.jpg" />
   </ItemGroup>
 
 </Project>
