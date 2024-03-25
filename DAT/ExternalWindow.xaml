@@ -66,7 +66,7 @@
 
         <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="2" Grid.Row="1" x:Name="WhiteScore_external" TextAlignment="Center" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Image x:Name="WhiteImage" Grid.Column="2" Grid.Row="0" />
-        <TextBox Visibility="Hidden" FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="2" x:Name="Result_external" Width="auto" TextAlignment="Center" Padding="0,0,0,0"/>
+        <TextBox Visibility="Hidden" FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="2" BorderBrush="Transparent" x:Name="Result_external" Background="Transparent" Width="auto" TextAlignment="Center" Padding="0,0,0,0"/>
         
 
     </Grid>
