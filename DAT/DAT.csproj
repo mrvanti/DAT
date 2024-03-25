@@ -14,7 +14,10 @@
 
   <ItemGroup>
     <None Remove="Content\judo.ico" />
+    <None Remove="Content\scales.png" />
+    <None Remove="Content\trophy.png" />
     <None Remove="judo.ico" />
+    <None Remove="trophy.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +25,9 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </Resource>
+    <Resource Include="Content\scales.png" />
+    <Resource Include="Content\trophy.png" />
+    <Resource Include="trophy.jpg" />
   </ItemGroup>
 
 </Project>

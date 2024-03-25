@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DAT
 {
@@ -24,6 +25,7 @@ namespace DAT
             _externalWindow.BlueScore_external.Text = _blueScore.ToString();
             _externalWindow.WhiteScore_external.Text = _whiteScore.ToString();
             _externalWindow.Clock_external.Text = _startTimeDisplay;
+            BlueScore.Background = new SolidColorBrush(Color.FromArgb(255, 27, 73, 242));
 
             //update label text            
             _clockTimer.Elapsed += OnTimeChanged;
@@ -51,6 +53,7 @@ namespace DAT
                 winner = _blueWin;
                 _externalWindow.Result_external.Background = Brushes.Red;
                 _externalWindow.BlueScore_external.BorderThickness = fatBorder;
+                _externalWindow.BlueImage.Source = new BitmapImage(new Uri("Content/trophy.png", UriKind.Relative));
                 SetWinnerTextboxBorder();
             }
 
@@ -59,12 +62,15 @@ namespace DAT
                 winner = _whiteWin;
                 _externalWindow.Result_external.Background = Brushes.Red;
                 _externalWindow.WhiteScore_external.BorderThickness = fatBorder;
+                _externalWindow.WhiteImage.Source = new BitmapImage(new Uri("Content/trophy.png", UriKind.Relative));
                 SetWinnerTextboxBorder();
             }
 
             if (_whiteScore == _blueScore)
             {
                 winner = _draw;
+                _externalWindow.BlueImage.Source = new BitmapImage(new Uri("Content/scales.png", UriKind.Relative));
+                _externalWindow.WhiteImage.Source = new BitmapImage(new Uri("Content/scales.png", UriKind.Relative));
                 _externalWindow.Result_external.BorderBrush = Brushes.Red;
                 _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
                 _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
@@ -99,7 +105,8 @@ namespace DAT
 
         private const string _startTimeDisplay = "2:00";
         private readonly System.Timers.Timer _clockTimer = new System.Timers.Timer(1000.0);
-        private static int MaxTime => 2 * 60;
+        //private static int MaxTime => 2 * 60;
+        private static int MaxTime => 2;
         private bool MustStop => (MaxTime - ClockTicks) < 0;
         private int ClockTicks { get; set; }
         public TimeSpan TimeLeft =>
@@ -375,12 +382,14 @@ namespace DAT
             _externalWindow.WhiteScore_external.Text = resetScore;
             WhiteScore.Text = resetScore;
             _whiteScore = 7;
+            _externalWindow.WhiteImage.Source = null;
 
             //Blue
             BlueHoldReset_Click(sender, e);
             _externalWindow.BlueScore_external.Text = resetScore;
             BlueScore.Text = resetScore;
             _blueScore = 7;
+            _externalWindow.BlueImage.Source = null;
         }
 
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
