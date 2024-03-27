@@ -10,9 +10,6 @@ namespace DAT
         private int _blueScore = 7;
         private int _whiteScore = 7;
         private ExternalWindow _externalWindow;
-        private readonly Thickness fatBorder = new Thickness(4.0);
-        private readonly Thickness lightBorder = new Thickness(2.0);
-
 
         public MainWindow()
         {
@@ -43,19 +40,14 @@ namespace DAT
 
         private void CheckWinningScore()
         {
-            ResetTextboxBorder();
             _externalWindow.Result_external.Visibility = Visibility.Hidden;
             if (_blueScore > _whiteScore)
             {
-                _externalWindow.BlueScore_external.BorderThickness = fatBorder;
-                _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
                 _externalWindow.BlueImage.Source = new BitmapImage(new Uri("Content/trophy.png", UriKind.Relative));
             }
 
             if (_whiteScore > _blueScore)
             {
-                _externalWindow.WhiteScore_external.BorderThickness = fatBorder;
-                _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
                 _externalWindow.WhiteImage.Source = new BitmapImage(new Uri("Content/trophy.png", UriKind.Relative));
             }
 
@@ -63,10 +55,6 @@ namespace DAT
             {
                 _externalWindow.BlueImage.Source = new BitmapImage(new Uri("Content/scales.png", UriKind.Relative));
                 _externalWindow.WhiteImage.Source = new BitmapImage(new Uri("Content/scales.png", UriKind.Relative));
-                _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
-                _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
-                _externalWindow.BlueScore_external.BorderThickness = fatBorder;
-                _externalWindow.WhiteScore_external.BorderThickness = fatBorder;
                 _externalWindow.Result_external.Text = "Oavgjort";
                 _externalWindow.Result_external.Visibility = Visibility.Visible;
             }
@@ -74,22 +62,11 @@ namespace DAT
 
         #endregion
 
-        private void ResetTextboxBorder()
-        {
-            _externalWindow.WhiteScore_external.BorderBrush = Brushes.Black;
-            _externalWindow.WhiteScore_external.BorderThickness = lightBorder;
-
-            _externalWindow.BlueScore_external.BorderBrush = Brushes.Black;
-            _externalWindow.BlueScore_external.BorderThickness = lightBorder;
-        }
-
-
         #region Clock
 
         private const string _startTimeDisplay = "2:00";
         private readonly System.Timers.Timer _clockTimer = new System.Timers.Timer(1000.0);
-        //private static int MaxTime => 2 * 60;
-        private static int MaxTime => 2;
+        private static int MaxTime => 2 * 60;
         private bool MustStop => (MaxTime - ClockTicks) < 0;
         private int ClockTicks { get; set; }
         public TimeSpan TimeLeft =>
@@ -132,7 +109,6 @@ namespace DAT
             Clock_label.Text = _startTimeDisplay;
             _externalWindow.Clock_external.Text = _startTimeDisplay;
             ClockTicks = 0;
-            ResetTextboxBorder();
         }
 
         #endregion
@@ -359,7 +335,6 @@ namespace DAT
         {
             string resetScore = "7";
             ResetClock_Click(sender, e);
-            ResetTextboxBorder();
             _externalWindow.Result_external.Visibility = Visibility.Hidden;
 
             //White

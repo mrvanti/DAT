@@ -9,8 +9,8 @@
         Title="ExternalWindow" Height="450" Width="800">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
-            <Setter Property="BorderBrush" Value="Black"></Setter>
-            <Setter Property="BorderThickness" Value="2px"></Setter>
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
             <Setter Property="Height" Value="auto"></Setter>
             <Setter Property="Width" Value="auto"></Setter>
             <Setter Property="IsReadOnly" Value="True"></Setter>
@@ -33,12 +33,14 @@
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
+        <Canvas x:Name="BlueCanvas"  Grid.Row="1" Grid.ColumnSpan="3"/>
+        <Canvas x:Name="WhiteCanvas" Background="White" Grid.Row="2" Grid.ColumnSpan="3" />
 
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" x:Name="Clock_external" Text="0:00" TextAlignment="Center" Background="Transparent" Padding="0,-20,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Transparent" BorderThickness="0" />
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" x:Name="Clock_external" Text="0:00" TextAlignment="Center" Background="Transparent" Padding="0,-20,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Transparent" BorderThickness="0" />
         <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="0" Grid.Row="1" x:Name="BlueScore_external" Text="0" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
-        <Image x:Name="BlueImage" Grid.Column="0" Grid.Row="0" />
-
-        <Grid Grid.Column="0" Grid.Row="2">
+        <Image x:Name="BlueImage" Grid.Column="2" Grid.Row="1" />
+        
+        <Grid Grid.Column="2" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -50,7 +52,7 @@
                 <TextBox x:Name="HoldTimerBlueExt" BorderThickness="0"  Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
             </Viewbox>
         </Grid>
-
+        
         <Grid Grid.Column="2" Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -64,10 +66,10 @@
             </Viewbox>
         </Grid>
 
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="2" Grid.Row="1" x:Name="WhiteScore_external" TextAlignment="Center" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Image x:Name="WhiteImage" Grid.Column="2" Grid.Row="0" />
-        <TextBox Visibility="Hidden" FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="2" BorderBrush="Transparent" x:Name="Result_external" Background="Transparent" Width="auto" TextAlignment="Center" Padding="0,0,0,0"/>
-        
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="0" Grid.Row="2" x:Name="WhiteScore_external" TextAlignment="Center" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Image x:Name="WhiteImage" Grid.Column="2" Grid.Row="2" />
+        <TextBox Visibility="Hidden" FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Transparent" x:Name="Result_external" Background="Transparent" Width="auto" TextAlignment="Center" Padding="0,0,0,0"/>
+
 
     </Grid>
 </Window>
