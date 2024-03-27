@@ -29,9 +29,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
         <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" x:Name="Clock_external" Text="0:00" TextAlignment="Center" Background="Transparent" Padding="0,-20,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Transparent" BorderThickness="0" />
