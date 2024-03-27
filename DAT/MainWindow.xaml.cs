@@ -88,8 +88,7 @@ namespace DAT
 
         private const string _startTimeDisplay = "2:00";
         private readonly System.Timers.Timer _clockTimer = new System.Timers.Timer(1000.0);
-        //private static int MaxTime => 2 * 60;
-        private static int MaxTime => 2;
+        private static int MaxTime => 2 * 60;
         private bool MustStop => (MaxTime - ClockTicks) < 0;
         private int ClockTicks { get; set; }
         public TimeSpan TimeLeft =>
