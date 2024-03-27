@@ -15,6 +15,8 @@ namespace DAT
             var textColor = new SolidColorBrush(Color.FromArgb(255, 0, 153, 51));
             HoldScoreTypeBlueExt.Foreground = textColor;
             HoldScoreTypeWhiteExt.Foreground = textColor;
+            Background = new SolidColorBrush(Color.FromArgb(255, 220, 220, 220));
+            BlueScore_external.Background = new SolidColorBrush(Color.FromArgb(255, 27, 73, 242));
         }
 
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)

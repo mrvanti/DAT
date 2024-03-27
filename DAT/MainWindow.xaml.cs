@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DAT
 {
     public partial class MainWindow : Window
     {
-        private const string _blueWin = "Blå vinner";
-        private const string _whiteWin = "Vit vinner";
-        private const string _draw = "Oavgjort";
         private int _blueScore = 7;
         private int _whiteScore = 7;
         private ExternalWindow _externalWindow;
@@ -24,6 +22,7 @@ namespace DAT
             _externalWindow.BlueScore_external.Text = _blueScore.ToString();
             _externalWindow.WhiteScore_external.Text = _whiteScore.ToString();
             _externalWindow.Clock_external.Text = _startTimeDisplay;
+            BlueScore.Background = new SolidColorBrush(Color.FromArgb(255, 27, 73, 242));
 
             //update label text            
             _clockTimer.Elapsed += OnTimeChanged;
@@ -45,53 +44,43 @@ namespace DAT
         private void CheckWinningScore()
         {
             ResetTextboxBorder();
-            var winner = "";
+            _externalWindow.Result_external.Visibility = Visibility.Hidden;
             if (_blueScore > _whiteScore)
             {
-                winner = _blueWin;
-                _externalWindow.Result_external.Background = Brushes.Red;
                 _externalWindow.BlueScore_external.BorderThickness = fatBorder;
-                SetWinnerTextboxBorder();
+                _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.BlueImage.Source = new BitmapImage(new Uri("Content/trophy.png", UriKind.Relative));
             }
 
             if (_whiteScore > _blueScore)
             {
-                winner = _whiteWin;
-                _externalWindow.Result_external.Background = Brushes.Red;
                 _externalWindow.WhiteScore_external.BorderThickness = fatBorder;
-                SetWinnerTextboxBorder();
+                _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.WhiteImage.Source = new BitmapImage(new Uri("Content/trophy.png", UriKind.Relative));
             }
 
             if (_whiteScore == _blueScore)
             {
-                winner = _draw;
-                _externalWindow.Result_external.BorderBrush = Brushes.Red;
+                _externalWindow.BlueImage.Source = new BitmapImage(new Uri("Content/scales.png", UriKind.Relative));
+                _externalWindow.WhiteImage.Source = new BitmapImage(new Uri("Content/scales.png", UriKind.Relative));
                 _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
                 _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
                 _externalWindow.BlueScore_external.BorderThickness = fatBorder;
                 _externalWindow.WhiteScore_external.BorderThickness = fatBorder;
+                _externalWindow.Result_external.Text = "Oavgjort";
+                _externalWindow.Result_external.Visibility = Visibility.Visible;
             }
-            _externalWindow.Result_external.Text = winner;
-        }
-
-        private void SetWinnerTextboxBorder()
-        {
-            _externalWindow.Result_external.BorderBrush = Brushes.Red;
-            _externalWindow.Result_external.BorderThickness = fatBorder;
         }
 
         #endregion
 
         private void ResetTextboxBorder()
         {
-            _externalWindow.Result_external.BorderBrush = Brushes.Black;
-            _externalWindow.Result_external.BorderThickness = fatBorder;
-
             _externalWindow.WhiteScore_external.BorderBrush = Brushes.Black;
-            _externalWindow.WhiteScore_external.BorderThickness = fatBorder;
+            _externalWindow.WhiteScore_external.BorderThickness = lightBorder;
 
             _externalWindow.BlueScore_external.BorderBrush = Brushes.Black;
-            _externalWindow.BlueScore_external.BorderThickness = fatBorder;
+            _externalWindow.BlueScore_external.BorderThickness = lightBorder;
         }
 
 
@@ -151,11 +140,11 @@ namespace DAT
 
         private int HolderTimerTicks { get; set; }
         private const string _holderReset = ":00";
-        private int HolderWazari => 10;
-        private int HolderIppon => 20;
+        private static int HolderWazari => 10;
+        private static int HolderIppon => 20;
 
         private readonly System.Timers.Timer _holdTimer = new System.Timers.Timer(1000.0);
-
+        #region Blue 
         private void BlueHoldStart_Click(object sender, RoutedEventArgs e)
         {
             WhiteHoldReset_Click(sender, e);
@@ -207,6 +196,9 @@ namespace DAT
                 }
             });
         }
+        #endregion
+
+        #region White
 
         private void WhiteHoldStart_Click(object sender, RoutedEventArgs e)
         {
@@ -259,7 +251,9 @@ namespace DAT
             });
         }
 
-        private string CheckHoldScoreType(int holdTime)
+        #endregion
+
+        private static string CheckHoldScoreType(int holdTime)
         {
             if (holdTime >= HolderWazari && holdTime < HolderIppon)
             {
@@ -271,7 +265,6 @@ namespace DAT
             }
             return "";
         }
-
 
         #endregion
 
@@ -366,21 +359,21 @@ namespace DAT
             string resetScore = "7";
             ResetClock_Click(sender, e);
             ResetTextboxBorder();
-            _externalWindow.Result_external.Text = "";
-            _externalWindow.Result_external.Foreground = Brushes.Black;
-            _externalWindow.Result_external.Background = Brushes.White;
+            _externalWindow.Result_external.Visibility = Visibility.Hidden;
 
             //White
             WhiteHoldReset_Click(sender, e);
             _externalWindow.WhiteScore_external.Text = resetScore;
             WhiteScore.Text = resetScore;
             _whiteScore = 7;
+            _externalWindow.WhiteImage.Source = null;
 
             //Blue
             BlueHoldReset_Click(sender, e);
             _externalWindow.BlueScore_external.Text = resetScore;
             BlueScore.Text = resetScore;
             _blueScore = 7;
+            _externalWindow.BlueImage.Source = null;
         }
 
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
