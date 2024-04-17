@@ -1,32 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-	  <PublishSingleFile>true</PublishSingleFile>
-	  <SelfContained>true</SelfContained>
-	  <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-	  <PublishReadyToRun>true</PublishReadyToRun>
-    <UseWPF>true</UseWPF>
-    <PackageIcon>judo.ico</PackageIcon>
-    <ApplicationIcon>Content\judo.ico</ApplicationIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+		<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>true</SelfContained>
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<UseWPF>true</UseWPF>
+		<PackageIcon>judo.ico</PackageIcon>
+		<ApplicationIcon>Content\judo.ico</ApplicationIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Content\judo.ico" />
-    <None Remove="Content\scales.png" />
-    <None Remove="Content\trophy.png" />
-    <None Remove="judo.ico" />
-    <None Remove="trophy.jpg" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Content\judo.ico" />
+		<None Remove="Content\scales.png" />
+		<None Remove="Content\trophy.png" />
+		<None Remove="judo.ico" />
+		<None Remove="trophy.jpg" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Content\judo.ico">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </Resource>
-    <Resource Include="Content\scales.png" />
-    <Resource Include="Content\trophy.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="Content\judo.ico">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</Resource>
+		<Resource Include="Content\scales.png" />
+		<Resource Include="Content\trophy.png" />
+	</ItemGroup>
 
 </Project>
