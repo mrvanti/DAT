@@ -27,6 +27,9 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -34,40 +37,31 @@
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" x:Name="Clock_external" Text="0:00" TextAlignment="Center" Background="Transparent" Padding="0,-20,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Transparent" BorderThickness="0" />
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="0" Grid.Row="1" x:Name="BlueScore_external" Text="0" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
-        <Image x:Name="BlueImage" Grid.Column="0" Grid.Row="0" />
-
-        <Grid Grid.Column="0" Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Viewbox Grid.Row="0">
-                <TextBox x:Name="HoldScoreTypeBlueExt" BorderThickness="0" Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            </Viewbox>
-            <Viewbox Grid.Row="1">
-                <TextBox x:Name="HoldTimerBlueExt" BorderThickness="0"  Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-            </Viewbox>
-        </Grid>
-
-        <Grid Grid.Column="2" Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Viewbox Grid.Row="0">
-                <TextBox x:Name="HoldScoreTypeWhiteExt" BorderThickness="0" Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            </Viewbox>
-            <Viewbox Grid.Row="1">
-                <TextBox x:Name="HoldTimerWhiteExt" BorderThickness="0" Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-            </Viewbox>
-        </Grid>
-
-        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="2" Grid.Row="1" x:Name="WhiteScore_external" TextAlignment="Center" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Image x:Name="WhiteImage" Grid.Column="2" Grid.Row="0" />
-        <TextBox Visibility="Hidden" FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="2" BorderBrush="Transparent" x:Name="Result_external" Background="Transparent" Width="auto" TextAlignment="Center" Padding="0,0,0,0"/>
+        <!--Blue-->
+        <Viewbox Grid.Row="4">
+            <TextBox x:Name="HoldScoreTypeBlueExt" BorderThickness="0" Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </Viewbox>
+        <Viewbox Grid.Row="5">
+            <TextBox x:Name="HoldTimerBlueExt" BorderThickness="0"  Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        </Viewbox>
         
+        <Image x:Name="BlueImage" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" />
+        
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" x:Name="BlueScore_external" Text="0" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
 
+        <!--White-->
+        <Viewbox Grid.Row="4">
+            <TextBox x:Name="HoldScoreTypeWhiteExt" BorderThickness="0" Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </Viewbox>
+        <Viewbox Grid.Row="5">
+            <TextBox x:Name="HoldTimerWhiteExt" BorderThickness="0" Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        </Viewbox>
+
+        <Image x:Name="WhiteImage" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" />
+        <TextBox x:Name="WhiteScore_external" FontSize="{DynamicResource ControlFontSize}" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"  TextAlignment="Center" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        
+        <!--Common-->
+        <TextBox FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" x:Name="Clock_external" Text="0:00" TextAlignment="Center" Background="Transparent" Padding="0,-20,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Transparent" BorderThickness="0" />
+        <TextBox x:Name="Result_external" Visibility="Hidden" FontSize="{DynamicResource ControlFontSize}" Grid.Column="1" Grid.Row="4" Grid.RowSpan="2" BorderBrush="Transparent"  Background="Transparent" Width="auto" TextAlignment="Center" Padding="0,0,0,0"/>
     </Grid>
 </Window>
