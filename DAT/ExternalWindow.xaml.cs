@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Windows;
 using System.Windows.Media;
 namespace DAT
@@ -8,6 +9,7 @@ namespace DAT
     /// </summary>
     public partial class ExternalWindow : Window
     {
+
         public ExternalWindow()
         {
             InitializeComponent();

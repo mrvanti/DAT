@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace DAT
 {
@@ -12,6 +13,10 @@ namespace DAT
         private ExternalWindow _externalWindow;
         private readonly Thickness fatBorder = new(4.0);
         private readonly Thickness lightBorder = new(2.0);
+
+        private readonly System.Timers.Timer _blueHoldTimer = new System.Timers.Timer(1000.0);
+        private readonly System.Timers.Timer _whiteHoldTimer = new System.Timers.Timer(1000.0);
+        private DispatcherTimer previewTimer;
 
 
         public MainWindow()
@@ -24,21 +29,40 @@ namespace DAT
             _externalWindow.Clock_external.Text = _startTimeDisplay;
             BlueScore.Background = new SolidColorBrush(Color.FromArgb(255, 27, 73, 242));
 
+            var textColor = new SolidColorBrush(Color.FromArgb(255, 0, 153, 51));
+            WhiteHoldScoreTypeMain.Foreground = textColor;
+            BlueHoldScoreTypeMain.Foreground = textColor;
+
             //update label text            
             _clockTimer.Elapsed += OnTimeChanged;
             Closing += OnClose;
+
+            _blueHoldTimer.Elapsed += OnBlueHoldTimerChanged;
+            _whiteHoldTimer.Elapsed += OnWhiteHoldTimerChanged;
+
+            previewTimer = new DispatcherTimer
+            {
+                Interval = System.TimeSpan.FromMilliseconds(500)
+            };
+            previewTimer.Tick += UpdatePreview;
+            previewTimer.Start();
         }
 
         private void CheckWinner()
         {
             if (_externalWindow != null)
             {
-                if (_blueScore - _whiteScore >= 30 || _whiteScore - _blueScore >= 30 || MustStop)
+                if (!_blueHoldTimer.Enabled || _whiteHoldTimer.Enabled)
                 {
-                    CheckWinningScore();
+                    if (_blueScore - _whiteScore >= 30 || _whiteScore - _blueScore >= 30 || MustStop)
+                    {
+                        CheckWinningScore();
+                    }
                 }
             }
         }
+
+
         #region WinnerLogic
 
         private void CheckWinningScore()
@@ -119,8 +143,8 @@ namespace DAT
 
         private void StartClock_Click(object sender, RoutedEventArgs e)
         {
-           var time = Clock_label.Text.Split(':');
-            if(time.Length < 2)
+            var time = Clock_label.Text.Split(':');
+            if (time.Length < 2)
             {
                 Clock_label.Text = _startTimeDisplay;
                 //Two minutes
@@ -134,17 +158,19 @@ namespace DAT
                     seconds = mins * 60;
                 if (int.TryParse(time[1], out int secs))
                     seconds += secs;
-                
+
                 MaxTime = seconds;
                 _externalWindow.Clock_external.Text = Clock_label.Text;
             }
-
+            ClockTicks = 0;
             _clockTimer.Start();
         }
 
         private void StopClock_Click(object sender, RoutedEventArgs e)
         {
             _clockTimer.Stop();
+            WhiteHoldReset_Click(sender, e);
+            BlueHoldReset_Click(sender, e);
         }
 
         private void ResetClock_Click(object sender, RoutedEventArgs e)
@@ -165,26 +191,26 @@ namespace DAT
         private static int HolderWazari => 10;
         private static int HolderIppon => 20;
 
-        private readonly System.Timers.Timer _holdTimer = new System.Timers.Timer(1000.0);
+        
         #region Blue 
         private void BlueHoldStart_Click(object sender, RoutedEventArgs e)
         {
             WhiteHoldReset_Click(sender, e);
-            _holdTimer.Elapsed += OnBlueHoldTimerChanged;
-            _holdTimer.Start();
+            _blueHoldTimer.Start();
         }
 
         private void BlueHoldStop_Click(object sender, RoutedEventArgs e)
         {
-            _holdTimer.Stop();
+            _blueHoldTimer.Stop();
+            CheckWinner();
         }
 
         private void BlueHoldReset_Click(object sender, RoutedEventArgs e)
         {
-            _holdTimer.Stop();
-            _holdTimer.Elapsed -= OnBlueHoldTimerChanged;
+            _blueHoldTimer.Stop();
             _externalWindow.HoldTimerBlueExt.Text = "";
             _externalWindow.HoldScoreTypeBlueExt.Text = "";
+            BlueHoldScoreTypeMain.Text = "";
             BlueHoldTimer.Text = _holderReset;
             HolderTimerTicks = 0;
         }
@@ -195,10 +221,6 @@ namespace DAT
             var holdScoreType = CheckHoldScoreType(HolderTimerTicks);
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (MustStop)
-                {
-                    _holdTimer.Stop();
-                }
                 var currentHoldTime = ":" + HolderTimerTicks.ToString();
                 BlueHoldTimer.Text = currentHoldTime;
                 if (_externalWindow != null)
@@ -206,14 +228,17 @@ namespace DAT
                     _externalWindow.HoldTimerBlueExt.Visibility = Visibility.Visible;
                     _externalWindow.HoldTimerBlueExt.Text = currentHoldTime;
                     _externalWindow.HoldScoreTypeBlueExt.Text = holdScoreType;
+                    BlueHoldScoreTypeMain.Text = holdScoreType;
 
                     if (!string.IsNullOrEmpty(holdScoreType))
                     {
                         _externalWindow.HoldScoreTypeBlueExt.Visibility = Visibility.Visible;
+                        BlueHoldScoreTypeMain.Visibility = Visibility.Visible;
                     }
                     else
                     {
                         _externalWindow.HoldScoreTypeBlueExt.Visibility = Visibility.Hidden;
+                        BlueHoldScoreTypeMain.Visibility = Visibility.Hidden;
                     }
                 }
             });
@@ -224,22 +249,22 @@ namespace DAT
 
         private void WhiteHoldStart_Click(object sender, RoutedEventArgs e)
         {
-            BlueHoldReset_Click(sender, e);
-            _holdTimer.Elapsed += OnWhiteHoldTimerChanged;
-            _holdTimer.Start();
+            BlueHoldReset_Click(sender, e);            
+            _whiteHoldTimer.Start();
         }
 
         private void WhiteHoldStop_Click(object sender, RoutedEventArgs e)
         {
-            _holdTimer.Stop();
+            _whiteHoldTimer.Stop();
+            CheckWinner();
         }
 
         private void WhiteHoldReset_Click(object sender, RoutedEventArgs e)
         {
-            _holdTimer.Stop();
-            _holdTimer.Elapsed -= OnWhiteHoldTimerChanged;
+            _whiteHoldTimer.Stop();
             _externalWindow.HoldTimerWhiteExt.Text = "";
             _externalWindow.HoldScoreTypeWhiteExt.Text = "";
+            WhiteHoldScoreTypeMain.Text = "";
             WhiteHoldTimer.Text = _holderReset;
             HolderTimerTicks = 0;
         }
@@ -250,25 +275,24 @@ namespace DAT
             var holdScoreType = CheckHoldScoreType(HolderTimerTicks);
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (MustStop)
-                {
-                    _holdTimer.Stop();
-                }
                 var currentHoldTime = ":" + HolderTimerTicks.ToString();
                 WhiteHoldTimer.Text = currentHoldTime;
                 if (_externalWindow != null)
                 {
                     _externalWindow.HoldTimerWhiteExt.Text = currentHoldTime;
+                    _externalWindow.HoldScoreTypeWhiteExt.Text = holdScoreType;
+                    WhiteHoldScoreTypeMain.Text = holdScoreType;
 
                     if (!string.IsNullOrEmpty(holdScoreType))
                     {
                         _externalWindow.HoldScoreTypeWhiteExt.Visibility = Visibility.Visible;
+                        WhiteHoldScoreTypeMain.Visibility = Visibility.Visible;
                     }
                     else
                     {
                         _externalWindow.HoldScoreTypeWhiteExt.Visibility = Visibility.Hidden;
+                        WhiteHoldScoreTypeMain.Visibility = Visibility.Hidden;
                     }
-                    _externalWindow.HoldScoreTypeWhiteExt.Text = holdScoreType;
                 }
             });
         }
@@ -293,6 +317,7 @@ namespace DAT
         private void VisaExtern_Click(object sender, RoutedEventArgs e)
         {
             _externalWindow ??= new ExternalWindow();
+            
 
             if (_externalWindow.Visibility == Visibility.Hidden)
             {
@@ -397,6 +422,23 @@ namespace DAT
             BlueScore.Text = resetScore;
             _blueScore = 7;
             _externalWindow.BlueImage.Source = null;
+        }
+
+        private void UpdatePreview(object sender, System.EventArgs e)
+        {
+            // Update the preview whenever the event is triggered
+            if (_externalWindow != null && _externalWindow.IsVisible)
+            {
+                var rtb = new RenderTargetBitmap(
+                    (int)_externalWindow.ActualWidth,
+                    (int)_externalWindow.ActualHeight,
+                    96, 96,
+                    System.Windows.Media.PixelFormats.Pbgra32);
+
+                rtb.Render(_externalWindow.Content as Visual);
+
+                PreviewImage.Source = rtb;
+            }
         }
 
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
