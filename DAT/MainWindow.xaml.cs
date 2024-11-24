@@ -42,10 +42,10 @@ namespace DAT
 
             previewTimer = new DispatcherTimer
             {
-                Interval = System.TimeSpan.FromMilliseconds(500)
+                Interval = System.TimeSpan.FromMilliseconds(250)
             };
             previewTimer.Tick += UpdatePreview;
-            previewTimer.Start();
+            
         }
 
         private void CheckWinner()
@@ -191,7 +191,7 @@ namespace DAT
         private static int HolderWazari => 10;
         private static int HolderIppon => 20;
 
-        
+
         #region Blue 
         private void BlueHoldStart_Click(object sender, RoutedEventArgs e)
         {
@@ -249,7 +249,7 @@ namespace DAT
 
         private void WhiteHoldStart_Click(object sender, RoutedEventArgs e)
         {
-            BlueHoldReset_Click(sender, e);            
+            BlueHoldReset_Click(sender, e);
             _whiteHoldTimer.Start();
         }
 
@@ -317,7 +317,7 @@ namespace DAT
         private void VisaExtern_Click(object sender, RoutedEventArgs e)
         {
             _externalWindow ??= new ExternalWindow();
-            
+
 
             if (_externalWindow.Visibility == Visibility.Hidden)
             {
@@ -426,24 +426,42 @@ namespace DAT
 
         private void UpdatePreview(object sender, System.EventArgs e)
         {
-            // Update the preview whenever the event is triggered
-            if (_externalWindow != null && _externalWindow.IsVisible)
+            if (AllowMiniature.IsChecked == true)
             {
-                var rtb = new RenderTargetBitmap(
-                    (int)_externalWindow.ActualWidth,
-                    (int)_externalWindow.ActualHeight,
-                    96, 96,
-                    System.Windows.Media.PixelFormats.Pbgra32);
+                // Update the preview whenever the event is triggered
+                if (_externalWindow != null && _externalWindow.IsVisible)
+                {
+                    var rtb = new RenderTargetBitmap(
+                        (int)_externalWindow.ActualWidth,
+                        (int)_externalWindow.ActualHeight,
+                        96, 96,
+                        System.Windows.Media.PixelFormats.Pbgra32);
 
-                rtb.Render(_externalWindow.Content as Visual);
+                    rtb.Render(_externalWindow.Content as Visual);
 
-                PreviewImage.Source = rtb;
+                    PreviewImage.Source = rtb;
+                }
             }
         }
+
+
 
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void VisaMiniChanged(object sender, RoutedEventArgs e)
+        {
+            if (AllowMiniature.IsChecked == false)
+            {
+                PreviewImage.Source = null;
+                previewTimer.Stop();
+            }
+            else
+            {
+                previewTimer.Start();
+            }
         }
     }
 }

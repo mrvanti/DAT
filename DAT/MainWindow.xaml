@@ -58,9 +58,12 @@
                             <Button x:Name="ResetClock" ToolTip="Nollställer endast klockan" HorizontalAlignment="Center" Margin="0, 75, 0, 0" Content="Reset" Click="ResetClock_Click" />
                         </Grid>
                     </GroupBox>
-                    <GroupBox Height="180" Width="180" VerticalAlignment="Bottom">
+                    <GroupBox Height="175" Width="180" VerticalAlignment="Bottom">
                         <GroupBox.Header>
-                            <TextBlock FontSize="15">Minifönster</TextBlock>
+                            <StackPanel Orientation="Horizontal" >
+                            <TextBlock Padding="0 0 20 0" FontSize="15">Minifönster</TextBlock>
+                                <CheckBox Name="AllowMiniature" Padding="5 0 0 0" Content="Visa" VerticalAlignment="Bottom" ToolTip="Visa miniatyr av externa skärmen" Click="VisaMiniChanged"/>
+                            </StackPanel>
                         </GroupBox.Header>
                         <Grid>
                             <Image x:Name="PreviewImage" Width="155" Height="140" VerticalAlignment="Top"></Image>
