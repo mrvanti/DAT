@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -8,14 +9,14 @@ namespace DAT
 {
     public partial class MainWindow : Window
     {
-        private int _blueScore = 7;
-        private int _whiteScore = 7;
+        private int _altColorScore = 7;
+        private int _primaryColorScore = 7;
         private ExternalWindow _externalWindow;
         private readonly Thickness fatBorder = new(4.0);
         private readonly Thickness lightBorder = new(2.0);
 
-        private readonly System.Timers.Timer _blueHoldTimer = new System.Timers.Timer(1000.0);
-        private readonly System.Timers.Timer _whiteHoldTimer = new System.Timers.Timer(1000.0);
+        private readonly System.Timers.Timer _altColorHoldTimer = new System.Timers.Timer(1000.0);
+        private readonly System.Timers.Timer _primaryColorHoldTimer = new System.Timers.Timer(1000.0);
         private DispatcherTimer previewTimer;
 
 
@@ -24,37 +25,62 @@ namespace DAT
             InitializeComponent();
             _externalWindow = new ExternalWindow();
             Clock_label.Text = _startTimeDisplay;
-            _externalWindow.BlueScore_external.Text = _blueScore.ToString();
-            _externalWindow.WhiteScore_external.Text = _whiteScore.ToString();
+            _externalWindow.AltColorScore_external.Text = _altColorScore.ToString();
+            _externalWindow.PrimaryColorScore_external.Text = _primaryColorScore.ToString();
             _externalWindow.Clock_external.Text = _startTimeDisplay;
-            BlueScore.Background = new SolidColorBrush(Color.FromArgb(255, 27, 73, 242));
+
 
             var textColor = new SolidColorBrush(Color.FromArgb(255, 0, 153, 51));
-            WhiteHoldScoreTypeMain.Foreground = textColor;
-            BlueHoldScoreTypeMain.Foreground = textColor;
+            PrimaryColorHoldScoreTypeMain.Foreground = textColor;
+            AltColorHoldScoreTypeMain.Foreground = textColor;
 
             //update label text            
             _clockTimer.Elapsed += OnTimeChanged;
             Closing += OnClose;
 
-            _blueHoldTimer.Elapsed += OnBlueHoldTimerChanged;
-            _whiteHoldTimer.Elapsed += OnWhiteHoldTimerChanged;
+            _altColorHoldTimer.Elapsed += OnAltColorHoldTimerChanged;
+            _primaryColorHoldTimer.Elapsed += OnPrimaryColorHoldTimerChanged;
 
             previewTimer = new DispatcherTimer
             {
                 Interval = System.TimeSpan.FromMilliseconds(250)
             };
             previewTimer.Tick += UpdatePreview;
-            
+
         }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var settings = await SettingsLoader.LoadSettingsAsync();
+
+            SolidColorBrush background;
+
+            if (settings.UseRedColor)
+            {
+                altColorHeader.Text = "Röd";
+                background = new SolidColorBrush(Color.FromArgb(255, 204, 43, 29));
+            }
+            else
+            {
+                background = new SolidColorBrush(Color.FromArgb(255, 27, 73, 242));
+            }
+            
+            _externalWindow ??= new ExternalWindow();
+
+            _externalWindow.AltColorScore_external.Background = background;
+            AltColorScore.Background = background;
+
+            MatchLength = ConvertToSeconds(settings.MatchLength);
+        }
+
 
         private void CheckWinner()
         {
             if (_externalWindow != null)
             {
-                if (!_blueHoldTimer.Enabled || _whiteHoldTimer.Enabled)
+                if (!_altColorHoldTimer.Enabled || _primaryColorHoldTimer.Enabled)
                 {
-                    if (_blueScore - _whiteScore >= 30 || _whiteScore - _blueScore >= 30 || MustStop)
+                    if (_altColorScore - _primaryColorScore >= 30 || _primaryColorScore - _altColorScore >= 30 || MustStop)
                     {
                         CheckWinningScore();
                     }
@@ -70,29 +96,29 @@ namespace DAT
             ResetTextboxBorder();
             _externalWindow.Result_external.Visibility = Visibility.Hidden;
             var trophyImg = new BitmapImage(new Uri("Content/trophy.png", UriKind.Relative));
-            if (_blueScore > _whiteScore)
+            if (_altColorScore > _primaryColorScore)
             {
-                _externalWindow.BlueScore_external.BorderThickness = fatBorder;
-                _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
-                _externalWindow.BlueImage.Source = trophyImg;
+                _externalWindow.AltColorScore_external.BorderThickness = fatBorder;
+                _externalWindow.AltColorScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.AltColorImage.Source = trophyImg;
             }
 
-            if (_whiteScore > _blueScore)
+            if (_primaryColorScore > _altColorScore)
             {
-                _externalWindow.WhiteScore_external.BorderThickness = fatBorder;
-                _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
-                _externalWindow.WhiteImage.Source = trophyImg;
+                _externalWindow.PrimaryColorScore_external.BorderThickness = fatBorder;
+                _externalWindow.PrimaryColorScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.PrimaryColorImage.Source = trophyImg;
             }
 
-            if (_whiteScore == _blueScore)
+            if (_primaryColorScore == _altColorScore)
             {
                 var scalesImg = new BitmapImage(new Uri("Content/scales.png", UriKind.Relative));
-                _externalWindow.BlueImage.Source = scalesImg;
-                _externalWindow.WhiteImage.Source = scalesImg;
-                _externalWindow.WhiteScore_external.BorderBrush = Brushes.Red;
-                _externalWindow.BlueScore_external.BorderBrush = Brushes.Red;
-                _externalWindow.BlueScore_external.BorderThickness = fatBorder;
-                _externalWindow.WhiteScore_external.BorderThickness = fatBorder;
+                _externalWindow.AltColorImage.Source = scalesImg;
+                _externalWindow.PrimaryColorImage.Source = scalesImg;
+                _externalWindow.PrimaryColorScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.AltColorScore_external.BorderBrush = Brushes.Red;
+                _externalWindow.AltColorScore_external.BorderThickness = fatBorder;
+                _externalWindow.PrimaryColorScore_external.BorderThickness = fatBorder;
                 _externalWindow.Result_external.Text = "Oavgjort";
                 _externalWindow.Result_external.Visibility = Visibility.Visible;
             }
@@ -102,24 +128,24 @@ namespace DAT
 
         private void ResetTextboxBorder()
         {
-            _externalWindow.WhiteScore_external.BorderBrush = Brushes.Black;
-            _externalWindow.WhiteScore_external.BorderThickness = lightBorder;
+            _externalWindow.PrimaryColorScore_external.BorderBrush = Brushes.Black;
+            _externalWindow.PrimaryColorScore_external.BorderThickness = lightBorder;
 
-            _externalWindow.BlueScore_external.BorderBrush = Brushes.Black;
-            _externalWindow.BlueScore_external.BorderThickness = lightBorder;
+            _externalWindow.AltColorScore_external.BorderBrush = Brushes.Black;
+            _externalWindow.AltColorScore_external.BorderThickness = lightBorder;
         }
 
 
         #region Clock
 
-        private const string _startTimeDisplay = "2:00";
+        private string _startTimeDisplay = "2:00";
         private readonly System.Timers.Timer _clockTimer = new System.Timers.Timer(1000.0);
-        private int MaxTime { get; set; }
-        private bool MustStop => (MaxTime - ClockTicks) < 0;
+        private int MatchLength { get; set; }
+        private bool MustStop => (MatchLength - ClockTicks) < 0;
         private int ClockTicks { get; set; }
         public TimeSpan TimeLeft =>
-           (MaxTime - ClockTicks) > 0
-           ? TimeSpan.FromSeconds(MaxTime - ClockTicks)
+           (MatchLength - ClockTicks) > 0
+           ? TimeSpan.FromSeconds(MatchLength - ClockTicks)
            : TimeSpan.FromMilliseconds(0);
 
         private void OnTimeChanged(object sender, EventArgs e)
@@ -141,27 +167,34 @@ namespace DAT
             });
         }
 
-        private void StartClock_Click(object sender, RoutedEventArgs e)
+
+        private int ConvertToSeconds(string time)
         {
-            var time = Clock_label.Text.Split(':');
-            if (time.Length < 2)
+            string pattern = @"^(\d?):(\d{2})$"; // Match "m:ss" or ":ss"
+            Match match = Regex.Match(time, pattern);
+
+            if (!match.Success)
             {
-                Clock_label.Text = _startTimeDisplay;
-                //Two minutes
-                MaxTime = 120;
+                return 120; // Invalid format, return default 120s
             }
             else
             {
-                var seconds = 0;
-                //Parse the minutes and seconds
-                if (int.TryParse(time[0], out int mins))
-                    seconds = mins * 60;
-                if (int.TryParse(time[1], out int secs))
-                    seconds += secs;
-
-                MaxTime = seconds;
                 _externalWindow.Clock_external.Text = Clock_label.Text;
+
+                int minutes = string.IsNullOrEmpty(match.Groups[1].Value) ? 0 : int.Parse(match.Groups[1].Value);
+                int seconds = int.Parse(match.Groups[2].Value);
+
+                return (minutes * 60) + seconds;
             }
+
+        }
+
+
+        private void StartClock_Click(object sender, RoutedEventArgs e)
+        {
+
+            MatchLength = ConvertToSeconds(Clock_label.Text);
+
             ClockTicks = 0;
             _clockTimer.Start();
         }
@@ -169,8 +202,8 @@ namespace DAT
         private void StopClock_Click(object sender, RoutedEventArgs e)
         {
             _clockTimer.Stop();
-            WhiteHoldReset_Click(sender, e);
-            BlueHoldReset_Click(sender, e);
+            PrimaryColorHoldReset_Click(sender, e);
+            AltColorHoldReset_Click(sender, e);
         }
 
         private void ResetClock_Click(object sender, RoutedEventArgs e)
@@ -192,106 +225,106 @@ namespace DAT
         private static int HolderIppon => 20;
 
 
-        #region Blue 
-        private void BlueHoldStart_Click(object sender, RoutedEventArgs e)
+        #region AltColor 
+        private void AltColorHoldStart_Click(object sender, RoutedEventArgs e)
         {
-            WhiteHoldReset_Click(sender, e);
-            _blueHoldTimer.Start();
+            PrimaryColorHoldReset_Click(sender, e);
+            _altColorHoldTimer.Start();
         }
 
-        private void BlueHoldStop_Click(object sender, RoutedEventArgs e)
+        private void AltColorHoldStop_Click(object sender, RoutedEventArgs e)
         {
-            _blueHoldTimer.Stop();
+            _altColorHoldTimer.Stop();
             CheckWinner();
         }
 
-        private void BlueHoldReset_Click(object sender, RoutedEventArgs e)
+        private void AltColorHoldReset_Click(object sender, RoutedEventArgs e)
         {
-            _blueHoldTimer.Stop();
-            _externalWindow.HoldTimerBlueExt.Text = "";
-            _externalWindow.HoldScoreTypeBlueExt.Text = "";
-            BlueHoldScoreTypeMain.Text = "";
-            BlueHoldTimer.Text = _holderReset;
+            _altColorHoldTimer.Stop();
+            _externalWindow.HoldTimerAltColorExt.Text = "";
+            _externalWindow.HoldScoreTypeAltColorExt.Text = "";
+            AltColorHoldScoreTypeMain.Text = "";
+            AltColorHoldTimer.Text = _holderReset;
             HolderTimerTicks = 0;
         }
 
-        private void OnBlueHoldTimerChanged(object sender, EventArgs e)
+        private void OnAltColorHoldTimerChanged(object sender, EventArgs e)
         {
             HolderTimerTicks += 1;
             var holdScoreType = CheckHoldScoreType(HolderTimerTicks);
             Application.Current.Dispatcher.Invoke(() =>
             {
                 var currentHoldTime = ":" + HolderTimerTicks.ToString();
-                BlueHoldTimer.Text = currentHoldTime;
+                AltColorHoldTimer.Text = currentHoldTime;
                 if (_externalWindow != null)
                 {
-                    _externalWindow.HoldTimerBlueExt.Visibility = Visibility.Visible;
-                    _externalWindow.HoldTimerBlueExt.Text = currentHoldTime;
-                    _externalWindow.HoldScoreTypeBlueExt.Text = holdScoreType;
-                    BlueHoldScoreTypeMain.Text = holdScoreType;
+                    _externalWindow.HoldTimerAltColorExt.Visibility = Visibility.Visible;
+                    _externalWindow.HoldTimerAltColorExt.Text = currentHoldTime;
+                    _externalWindow.HoldScoreTypeAltColorExt.Text = holdScoreType;
+                    AltColorHoldScoreTypeMain.Text = holdScoreType;
 
                     if (!string.IsNullOrEmpty(holdScoreType))
                     {
-                        _externalWindow.HoldScoreTypeBlueExt.Visibility = Visibility.Visible;
-                        BlueHoldScoreTypeMain.Visibility = Visibility.Visible;
+                        _externalWindow.HoldScoreTypeAltColorExt.Visibility = Visibility.Visible;
+                        AltColorHoldScoreTypeMain.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        _externalWindow.HoldScoreTypeBlueExt.Visibility = Visibility.Hidden;
-                        BlueHoldScoreTypeMain.Visibility = Visibility.Hidden;
+                        _externalWindow.HoldScoreTypeAltColorExt.Visibility = Visibility.Hidden;
+                        AltColorHoldScoreTypeMain.Visibility = Visibility.Hidden;
                     }
                 }
             });
         }
         #endregion
 
-        #region White
+        #region PrimaryColor
 
-        private void WhiteHoldStart_Click(object sender, RoutedEventArgs e)
+        private void PrimaryColorHoldStart_Click(object sender, RoutedEventArgs e)
         {
-            BlueHoldReset_Click(sender, e);
-            _whiteHoldTimer.Start();
+            AltColorHoldReset_Click(sender, e);
+            _primaryColorHoldTimer.Start();
         }
 
-        private void WhiteHoldStop_Click(object sender, RoutedEventArgs e)
+        private void PrimaryColorHoldStop_Click(object sender, RoutedEventArgs e)
         {
-            _whiteHoldTimer.Stop();
+            _primaryColorHoldTimer.Stop();
             CheckWinner();
         }
 
-        private void WhiteHoldReset_Click(object sender, RoutedEventArgs e)
+        private void PrimaryColorHoldReset_Click(object sender, RoutedEventArgs e)
         {
-            _whiteHoldTimer.Stop();
-            _externalWindow.HoldTimerWhiteExt.Text = "";
-            _externalWindow.HoldScoreTypeWhiteExt.Text = "";
-            WhiteHoldScoreTypeMain.Text = "";
-            WhiteHoldTimer.Text = _holderReset;
+            _primaryColorHoldTimer.Stop();
+            _externalWindow.HoldTimerPrimaryColorExt.Text = "";
+            _externalWindow.HoldScoreTypePrimaryColorExt.Text = "";
+            PrimaryColorHoldScoreTypeMain.Text = "";
+            PrimaryColorHoldTimer.Text = _holderReset;
             HolderTimerTicks = 0;
         }
 
-        private void OnWhiteHoldTimerChanged(object sender, EventArgs e)
+        private void OnPrimaryColorHoldTimerChanged(object sender, EventArgs e)
         {
             HolderTimerTicks += 1;
             var holdScoreType = CheckHoldScoreType(HolderTimerTicks);
             Application.Current.Dispatcher.Invoke(() =>
             {
                 var currentHoldTime = ":" + HolderTimerTicks.ToString();
-                WhiteHoldTimer.Text = currentHoldTime;
+                PrimaryColorHoldTimer.Text = currentHoldTime;
                 if (_externalWindow != null)
                 {
-                    _externalWindow.HoldTimerWhiteExt.Text = currentHoldTime;
-                    _externalWindow.HoldScoreTypeWhiteExt.Text = holdScoreType;
-                    WhiteHoldScoreTypeMain.Text = holdScoreType;
+                    _externalWindow.HoldTimerPrimaryColorExt.Text = currentHoldTime;
+                    _externalWindow.HoldScoreTypePrimaryColorExt.Text = holdScoreType;
+                    PrimaryColorHoldScoreTypeMain.Text = holdScoreType;
 
                     if (!string.IsNullOrEmpty(holdScoreType))
                     {
-                        _externalWindow.HoldScoreTypeWhiteExt.Visibility = Visibility.Visible;
-                        WhiteHoldScoreTypeMain.Visibility = Visibility.Visible;
+                        _externalWindow.HoldScoreTypePrimaryColorExt.Visibility = Visibility.Visible;
+                        PrimaryColorHoldScoreTypeMain.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        _externalWindow.HoldScoreTypeWhiteExt.Visibility = Visibility.Hidden;
-                        WhiteHoldScoreTypeMain.Visibility = Visibility.Hidden;
+                        _externalWindow.HoldScoreTypePrimaryColorExt.Visibility = Visibility.Hidden;
+                        PrimaryColorHoldScoreTypeMain.Visibility = Visibility.Hidden;
                     }
                 }
             });
@@ -331,71 +364,71 @@ namespace DAT
         }
 
         #region Score
-        private void BlueWazaPlus_Click(object sender, RoutedEventArgs e)
+        private void AltColorWazaPlus_Click(object sender, RoutedEventArgs e)
         {
-            _blueScore += 7;
-            BlueAfterScoreChange();
+            _altColorScore += 7;
+            AltColorAfterScoreChange();
         }
 
-        private void BlueWazaMinus_Click(object sender, RoutedEventArgs e)
+        private void AltColorWazaMinus_Click(object sender, RoutedEventArgs e)
         {
-            _blueScore -= 7;
-            BlueAfterScoreChange();
+            _altColorScore -= 7;
+            AltColorAfterScoreChange();
         }
 
-        private void BlueIpponPlus_Click(object sender, RoutedEventArgs e)
+        private void AltColorIpponPlus_Click(object sender, RoutedEventArgs e)
         {
-            _blueScore += 10;
-            BlueAfterScoreChange();
+            _altColorScore += 10;
+            AltColorAfterScoreChange();
         }
 
-        private void BlueIpponMinus_Click(object sender, RoutedEventArgs e)
+        private void AltColorIpponMinus_Click(object sender, RoutedEventArgs e)
         {
-            _blueScore -= 10;
-            BlueAfterScoreChange();
+            _altColorScore -= 10;
+            AltColorAfterScoreChange();
         }
 
-        private void BlueAfterScoreChange()
+        private void AltColorAfterScoreChange()
         {
-            BlueScore.Text = _blueScore.ToString();
+            AltColorScore.Text = _altColorScore.ToString();
             CheckWinner();
             if (_externalWindow != null)
             {
-                _externalWindow.BlueScore_external.Text = _blueScore.ToString();
+                _externalWindow.AltColorScore_external.Text = _altColorScore.ToString();
             }
         }
 
-        private void WhiteWazaPlus_Click(object sender, RoutedEventArgs e)
+        private void PrimaryColorWazaPlus_Click(object sender, RoutedEventArgs e)
         {
-            _whiteScore += 7;
-            WhiteAfterScoreChange();
+            _primaryColorScore += 7;
+            PrimaryColorAfterScoreChange();
         }
 
-        private void WhiteWazaMinus_Click(object sender, RoutedEventArgs e)
+        private void PrimaryColorWazaMinus_Click(object sender, RoutedEventArgs e)
         {
-            _whiteScore -= 7;
-            WhiteAfterScoreChange();
+            _primaryColorScore -= 7;
+            PrimaryColorAfterScoreChange();
         }
 
-        private void WhiteIpponPlus_Click(object sender, RoutedEventArgs e)
+        private void PrimaryColorIpponPlus_Click(object sender, RoutedEventArgs e)
         {
-            _whiteScore += 10;
-            WhiteAfterScoreChange();
+            _primaryColorScore += 10;
+            PrimaryColorAfterScoreChange();
         }
 
-        private void WhiteIpponMinus_Click(object sender, RoutedEventArgs e)
+        private void PrimaryColorIpponMinus_Click(object sender, RoutedEventArgs e)
         {
-            _whiteScore -= 10;
-            WhiteAfterScoreChange();
+            _primaryColorScore -= 10;
+            PrimaryColorAfterScoreChange();
         }
 
-        private void WhiteAfterScoreChange()
+        private void PrimaryColorAfterScoreChange()
         {
-            WhiteScore.Text = _whiteScore.ToString();
+            PrimaryColorScore.Text = _primaryColorScore.ToString();
             CheckWinner();
             if (_externalWindow != null)
             {
-                _externalWindow.WhiteScore_external.Text = _whiteScore.ToString();
+                _externalWindow.PrimaryColorScore_external.Text = _primaryColorScore.ToString();
             }
         }
 
@@ -409,19 +442,19 @@ namespace DAT
             ResetTextboxBorder();
             _externalWindow.Result_external.Visibility = Visibility.Hidden;
 
-            //White
-            WhiteHoldReset_Click(sender, e);
-            _externalWindow.WhiteScore_external.Text = resetScore;
-            WhiteScore.Text = resetScore;
-            _whiteScore = 7;
-            _externalWindow.WhiteImage.Source = null;
+            //PrimaryColor
+            PrimaryColorHoldReset_Click(sender, e);
+            _externalWindow.PrimaryColorScore_external.Text = resetScore;
+            PrimaryColorScore.Text = resetScore;
+            _primaryColorScore = 7;
+            _externalWindow.PrimaryColorImage.Source = null;
 
-            //Blue
-            BlueHoldReset_Click(sender, e);
-            _externalWindow.BlueScore_external.Text = resetScore;
-            BlueScore.Text = resetScore;
-            _blueScore = 7;
-            _externalWindow.BlueImage.Source = null;
+            //AltColor
+            AltColorHoldReset_Click(sender, e);
+            _externalWindow.AltColorScore_external.Text = resetScore;
+            AltColorScore.Text = resetScore;
+            _altColorScore = 7;
+            _externalWindow.AltColorImage.Source = null;
         }
 
         private void UpdatePreview(object sender, System.EventArgs e)
@@ -462,6 +495,16 @@ namespace DAT
             {
                 previewTimer.Start();
             }
+        }
+
+        private void AvslutaClicked(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void SettingsClicked(object sender, RoutedEventArgs e)
+        {
+            //TODO:Lägg in möjlighet att spara inställningar här
         }
     }
 }
