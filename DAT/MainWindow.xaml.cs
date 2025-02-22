@@ -18,6 +18,7 @@ namespace DAT
         private readonly System.Timers.Timer _altColorHoldTimer = new System.Timers.Timer(1000.0);
         private readonly System.Timers.Timer _primaryColorHoldTimer = new System.Timers.Timer(1000.0);
         private DispatcherTimer previewTimer;
+        private string timePattern = @"^(\d?):(\d{2})$"; // Match "m:ss" or ":ss"
 
 
         public MainWindow()
@@ -47,6 +48,8 @@ namespace DAT
             };
             previewTimer.Tick += UpdatePreview;
 
+
+
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -64,13 +67,29 @@ namespace DAT
             {
                 background = new SolidColorBrush(Color.FromArgb(255, 27, 73, 242));
             }
-            
+
             _externalWindow ??= new ExternalWindow();
 
             _externalWindow.AltColorScore_external.Background = background;
             AltColorScore.Background = background;
+            var couldParse = SetTime(settings.MatchLength);
+            if (couldParse)
+            {
+                _startTimeDisplay = settings.MatchLength;
+            }
+        }
 
-            MatchLength = ConvertToSeconds(settings.MatchLength);
+        private bool SetTime(string inputTime)
+        {
+            var (isOk, time) = CheckAndConvertTime(inputTime);
+
+            if (isOk)
+            {
+                MatchLength = time;
+                Clock_label.Text = inputTime;
+                _externalWindow.Clock_external.Text = inputTime;
+            }
+            return isOk;
         }
 
 
@@ -140,7 +159,7 @@ namespace DAT
 
         private string _startTimeDisplay = "2:00";
         private readonly System.Timers.Timer _clockTimer = new System.Timers.Timer(1000.0);
-        private int MatchLength { get; set; }
+        private int MatchLength { get; set; } = 120;
         private bool MustStop => (MatchLength - ClockTicks) < 0;
         private int ClockTicks { get; set; }
         public TimeSpan TimeLeft =>
@@ -167,33 +186,35 @@ namespace DAT
             });
         }
 
-
-        private int ConvertToSeconds(string time)
+        private (bool, int) CheckAndConvertTime(string input)
         {
-            string pattern = @"^(\d?):(\d{2})$"; // Match "m:ss" or ":ss"
-            Match match = Regex.Match(time, pattern);
-
-            if (!match.Success)
+            Match match = Regex.Match(input, timePattern);
+            var isOkTimeFormat = match.Success;
+            var time = 120;
+            if (isOkTimeFormat)
             {
-                return 120; // Invalid format, return default 120s
-            }
-            else
-            {
-                _externalWindow.Clock_external.Text = Clock_label.Text;
-
                 int minutes = string.IsNullOrEmpty(match.Groups[1].Value) ? 0 : int.Parse(match.Groups[1].Value);
                 int seconds = int.Parse(match.Groups[2].Value);
-
-                return (minutes * 60) + seconds;
+                time = (minutes * 60) + seconds;
             }
-
+            return (isOkTimeFormat, time);
         }
-
 
         private void StartClock_Click(object sender, RoutedEventArgs e)
         {
 
-            MatchLength = ConvertToSeconds(Clock_label.Text);
+            var (isOk, time) = CheckAndConvertTime(Clock_label.Text);
+            if (isOk)
+            {
+                Clock_label.Text = Clock_label.Text;
+                _externalWindow.Clock_external.Text = Clock_label.Text;
+            }
+            else
+            {
+                Clock_label.Text = _startTimeDisplay;
+                _externalWindow.Clock_external.Text = _startTimeDisplay;
+            }
+            MatchLength = time;
 
             ClockTicks = 0;
             _clockTimer.Start();

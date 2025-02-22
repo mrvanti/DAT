@@ -17,7 +17,14 @@
 		<None Remove="Content\scales.png" />
 		<None Remove="Content\trophy.png" />
 		<None Remove="judo.ico" />
+		<None Remove="settings.json" />
 		<None Remove="trophy.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="settings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -27,12 +34,6 @@
 		</Resource>
 		<Resource Include="Content\scales.png" />
 		<Resource Include="Content\trophy.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="settings.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 
 </Project>
