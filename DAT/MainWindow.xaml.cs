@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -242,6 +243,7 @@ namespace DAT
 
         private int HolderTimerTicks { get; set; }
         private const string _holderReset = ":00";
+        private static int HolderYoko => 5;
         private static int HolderWazari => 10;
         private static int HolderIppon => 20;
 
@@ -355,6 +357,10 @@ namespace DAT
 
         private static string CheckHoldScoreType(int holdTime)
         {
+            if (holdTime >= HolderYoko && holdTime < HolderWazari)
+            {
+                return "Yoko";
+            }
             if (holdTime >= HolderWazari && holdTime < HolderIppon)
             {
                 return "Wazari";
@@ -385,29 +391,26 @@ namespace DAT
         }
 
         #region Score
-        private void AltColorWazaPlus_Click(object sender, RoutedEventArgs e)
+        private void AltColorPlus_Click(object sender, RoutedEventArgs e)
         {
-            _altColorScore += 7;
+            if (sender is Button button)
+            {
+                _altColorScore += int.Parse(button.Tag.ToString());
+            }
+            
             AltColorAfterScoreChange();
         }
 
-        private void AltColorWazaMinus_Click(object sender, RoutedEventArgs e)
+        private void AltColorMinus_Click(object sender, RoutedEventArgs e)
         {
-            _altColorScore -= 7;
+            if (sender is Button button)
+            {
+                _altColorScore -= int.Parse(button.Tag.ToString());
+            }
+             
             AltColorAfterScoreChange();
         }
 
-        private void AltColorIpponPlus_Click(object sender, RoutedEventArgs e)
-        {
-            _altColorScore += 10;
-            AltColorAfterScoreChange();
-        }
-
-        private void AltColorIpponMinus_Click(object sender, RoutedEventArgs e)
-        {
-            _altColorScore -= 10;
-            AltColorAfterScoreChange();
-        }
 
         private void AltColorAfterScoreChange()
         {
@@ -419,29 +422,25 @@ namespace DAT
             }
         }
 
-        private void PrimaryColorWazaPlus_Click(object sender, RoutedEventArgs e)
+        private void PrimaryColorPlus_Click(object sender, RoutedEventArgs e)
         {
-            _primaryColorScore += 7;
+            if (sender is Button button)
+            {
+                _primaryColorScore += int.Parse(button.Tag.ToString());
+            }
             PrimaryColorAfterScoreChange();
         }
 
-        private void PrimaryColorWazaMinus_Click(object sender, RoutedEventArgs e)
+        private void PrimaryColorMinus_Click(object sender, RoutedEventArgs e)
         {
-            _primaryColorScore -= 7;
+            if (sender is Button button)
+            {
+                _primaryColorScore -= int.Parse(button.Tag.ToString());
+            }
+
             PrimaryColorAfterScoreChange();
         }
 
-        private void PrimaryColorIpponPlus_Click(object sender, RoutedEventArgs e)
-        {
-            _primaryColorScore += 10;
-            PrimaryColorAfterScoreChange();
-        }
-
-        private void PrimaryColorIpponMinus_Click(object sender, RoutedEventArgs e)
-        {
-            _primaryColorScore -= 10;
-            PrimaryColorAfterScoreChange();
-        }
 
         private void PrimaryColorAfterScoreChange()
         {

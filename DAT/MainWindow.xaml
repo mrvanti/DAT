@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DAT"
         mc:Ignorable="d"
-        Title="DAT" Height="600" Width="1000" Icon="Content/judo.ico" >
+        Title="DAT" Height="650" Width="1000" Icon="Content/judo.ico" >
 
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
@@ -65,7 +65,7 @@
 
         <Viewbox Stretch="Uniform">
             <Grid>
-                <GroupBox  HorizontalAlignment="Left" Height="400" Width="200" Margin="0,10,0,0" VerticalAlignment="Top">
+                <GroupBox  HorizontalAlignment="Left" Height="410" Width="200" VerticalAlignment="Center">
                     <GroupBox.Header>
                         <TextBlock FontSize="25">Match</TextBlock>
                     </GroupBox.Header>
@@ -98,51 +98,55 @@
                     </Grid>
                 </GroupBox>
 
-                <GroupBox HorizontalAlignment="Left" Height="400" Width="180" VerticalAlignment="Top" Margin="400,10,0,0">
+                <GroupBox HorizontalAlignment="Left" Height="410" Width="180" VerticalAlignment="Center" Margin="400,0,0,0">
                     <GroupBox.Header>
                         <TextBlock x:Name="altColorHeader" Text="Blå" FontSize="25"></TextBlock>
                     </GroupBox.Header>
                     <Grid>
                         <TextBox x:Name="AltColorScore" IsReadOnly="True" Style="{StaticResource Label}" Background="Blue" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top"  TextWrapping="Wrap" Text="7"/>
-                        <Button x:Name="BlueWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Click="AltColorWazaPlus_Click" />
-                        <Button x:Name="BlueWazaMinus" Content="Waza -7" HorizontalAlignment="Right" Margin="0,110,10,0" VerticalAlignment="Top" Click="AltColorWazaMinus_Click" />
-                        <Button x:Name="BlueIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Click="AltColorIpponPlus_Click" />
-                        <Button x:Name="BlueIpponMinus" Content="Ippon -10" HorizontalAlignment="Right" Margin="0,160,10,0" VerticalAlignment="Top" Click="AltColorIpponMinus_Click" />
-                        <GroupBox HorizontalAlignment="Center" Height="150" Width="160" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <Button x:Name="AltColorYokoPlus" Content="Yoko +1" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Tag="1" Click="AltColorPlus_Click" />
+                        <Button x:Name="AltColorYokoMinus" Content="Yoko -1" HorizontalAlignment="Right" Margin="0,110,10,0" VerticalAlignment="Top" Tag="1" Click="AltColorMinus_Click" />
+                        <Button x:Name="AltColorWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top" Tag="7" Click="AltColorPlus_Click" />
+                        <Button x:Name="AltColorWazaMinus" Content="Waza -7" HorizontalAlignment="Right" Margin="0,155,10,0" VerticalAlignment="Top" Tag="7" Click="AltColorMinus_Click" />
+                        <Button x:Name="AltColorIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Tag="10" Click="AltColorPlus_Click" />
+                        <Button x:Name="AltColorIpponMinus" Content="Ippon -10" HorizontalAlignment="Right" Margin="0,200,10,0" VerticalAlignment="Top" Tag="10" Click="AltColorMinus_Click" />
+                        <GroupBox HorizontalAlignment="Center" Height="135" Width="160" VerticalAlignment="Bottom">
                             <GroupBox.Header>
                                 <TextBlock FontSize="15">Fasthållning</TextBlock>
                             </GroupBox.Header>
                             <Grid>
                                 <TextBox x:Name="AltColorHoldTimer" Style="{StaticResource Clock}" IsReadOnly="True" Margin="15,10,15,0"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Text=":00"/>
-                                <TextBox x:Name="AltColorHoldScoreTypeMain" Height="25" BorderThickness="0" Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Button x:Name="BlueHoldStart" Content="Start"  Width="42" Margin="5,0,20,-90" VerticalAlignment="Center" HorizontalAlignment="Left" Click="AltColorHoldStart_Click"></Button>
-                                <Button x:Name="BlueHoldStop" Content="Stop" Width="42" Margin="0,0,0,-90" VerticalAlignment="Center" HorizontalAlignment="Center" Click="AltColorHoldStop_Click"></Button>
-                                <Button x:Name="BlueHoldReset" Content="Reset" Width="42" Margin="0,0,5,-90" VerticalAlignment="Center" HorizontalAlignment="Right" Click="AltColorHoldReset_Click"></Button>
+                                <TextBox x:Name="AltColorHoldScoreTypeMain" Height="25" BorderThickness="0" Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14"/>
+                                <Button x:Name="BlueHoldStart" Content="Start"  Width="42" Margin="5,0,20,-75" VerticalAlignment="Center" HorizontalAlignment="Left" Click="AltColorHoldStart_Click"></Button>
+                                <Button x:Name="BlueHoldStop" Content="Stop" Width="42" Margin="0,0,0,-75" VerticalAlignment="Center" HorizontalAlignment="Center" Click="AltColorHoldStop_Click"></Button>
+                                <Button x:Name="BlueHoldReset" Content="Reset" Width="42" Margin="0,0,5,-75" VerticalAlignment="Center" HorizontalAlignment="Right" Click="AltColorHoldReset_Click"></Button>
                             </Grid>
                         </GroupBox>
                     </Grid>
                 </GroupBox>
 
-                <GroupBox HorizontalAlignment="Left" Height="400" Width="180" Margin="200,10,0,0" VerticalAlignment="Top">
+                <GroupBox HorizontalAlignment="Center" Height="410" Width="180" VerticalAlignment="Center">
                     <GroupBox.Header>
                         <TextBlock FontSize="25">Vit</TextBlock>
                     </GroupBox.Header>
                     <Grid>
                         <TextBox x:Name="PrimaryColorScore" Style="{StaticResource Label}" Background="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  TextWrapping="Wrap" Text="7" VerticalAlignment="Top"/>
-                        <Button x:Name="WhiteWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Click="PrimaryColorWazaPlus_Click" />
-                        <Button x:Name="WhiteWazaMinus" Content="Waza -7" HorizontalAlignment="Right" Margin="0,110,10,0" VerticalAlignment="Top" Click="PrimaryColorWazaMinus_Click" />
-                        <Button x:Name="WhiteIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Click="PrimaryColorIpponPlus_Click" />
-                        <Button x:Name="WhiteIpponMinus" Content="Ippon -10" HorizontalAlignment="Right" Margin="0,160,10,0" VerticalAlignment="Top" Click="PrimaryColorIpponMinus_Click" />
-                        <GroupBox HorizontalAlignment="Center" Height="150" Width="160" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <Button x:Name="PrimaryColorYokoPlus" Content="Yoko +1" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Tag="1" Click="PrimaryColorPlus_Click" />
+                        <Button x:Name="PrimaryColorYokoMinus" Content="Yoko -1" HorizontalAlignment="Right" Margin="0,110,10,0" VerticalAlignment="Top" Tag="1" Click="PrimaryColorMinus_Click" />
+                        <Button x:Name="PrimaryColorWazaPlus" Content="Waza +7" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top" Tag="7" Click="PrimaryColorPlus_Click" />
+                        <Button x:Name="PrimaryColorWazaMinus" Content="Waza -7" HorizontalAlignment="Right" Margin="0,155,10,0" VerticalAlignment="Top" Tag="7" Click="PrimaryColorMinus_Click" />
+                        <Button x:Name="PrimaryColorIpponPlus" Content="Ippon +10" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Tag="10" Click="PrimaryColorPlus_Click" />
+                        <Button x:Name="PrimaryColorIpponMinus" Content="Ippon -10" HorizontalAlignment="Right" Margin="0,200,10,0" VerticalAlignment="Top" Tag="10" Click="PrimaryColorMinus_Click" />
+                        <GroupBox HorizontalAlignment="Center" Height="135" Width="160" VerticalAlignment="Bottom">
                             <GroupBox.Header>
                                 <TextBlock FontSize="15">Fasthållning</TextBlock>
                             </GroupBox.Header>
                             <Grid>
                                 <TextBox x:Name="PrimaryColorHoldTimer" Style="{StaticResource Clock}" IsReadOnly="True" Margin="15,10,15,0"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Text=":00"/>
-                                <TextBox x:Name="PrimaryColorHoldScoreTypeMain" Height="25" BorderThickness="0" Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Button x:Name="WhiteHoldStart" Content="Start" Margin="5,0,20,-90" Width="42" VerticalAlignment="Center" HorizontalAlignment="Left" Click="PrimaryColorHoldStart_Click"></Button>
-                                <Button x:Name="WhiteHoldStop" Content="Stop" Margin="0,0,0,-90" Width="42" VerticalAlignment="Center" HorizontalAlignment="Center" Click="PrimaryColorHoldStop_Click"></Button>
-                                <Button x:Name="WhiteHoldReset" Content="Reset" Margin="0,0,5,-90" Width="42" VerticalAlignment="Center" HorizontalAlignment="Right" Click="PrimaryColorHoldReset_Click"></Button>
+                                <TextBox x:Name="PrimaryColorHoldScoreTypeMain" Height="25" BorderThickness="0" Text="" Background="Transparent" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14"/>
+                                <Button x:Name="WhiteHoldStart" Content="Start" Margin="5,0,20,-75" Width="42" VerticalAlignment="Center" HorizontalAlignment="Left" Click="PrimaryColorHoldStart_Click"></Button>
+                                <Button x:Name="WhiteHoldStop" Content="Stop" Margin="0,0,0,-75" Width="42" VerticalAlignment="Center" HorizontalAlignment="Center" Click="PrimaryColorHoldStop_Click"></Button>
+                                <Button x:Name="WhiteHoldReset" Content="Reset" Margin="0,0,5,-75" Width="42" VerticalAlignment="Center" HorizontalAlignment="Right" Click="PrimaryColorHoldReset_Click"></Button>
                             </Grid>
                         </GroupBox>
                     </Grid>
