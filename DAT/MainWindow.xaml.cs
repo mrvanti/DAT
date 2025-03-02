@@ -49,8 +49,6 @@ namespace DAT
             };
             previewTimer.Tick += UpdatePreview;
 
-
-
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -78,6 +76,11 @@ namespace DAT
             {
                 _startTimeDisplay = settings.MatchLength;
             }
+        }
+
+        private void ChangeColorScheme()
+        {
+            //TODO:Lägg till färgändring här
         }
 
         private bool SetTime(string inputTime)
@@ -524,7 +527,12 @@ namespace DAT
 
         private void SettingsClicked(object sender, RoutedEventArgs e)
         {
-            //TODO:Lägg in möjlighet att spara inställningar här
+            var settingsWindow = new settings();
+            var dialogRes = settingsWindow.ShowDialog();
+            if (dialogRes.HasValue && dialogRes.Value)
+            {
+                settingsWindow.Color
+            }
         }
     }
 }
