@@ -1,4 +1,5 @@
 ﻿using DAT.Models;
+using System.Runtime;
 using System.Windows;
 
 namespace DAT
@@ -10,10 +11,27 @@ namespace DAT
     {
         public ColorEnum Color { get; set; } = ColorEnum.Blue;
         public string MatchTime { get; set; }
+        private AppSettings _settings;
 
-        public settings()
+        public settings(AppSettings settings)
         {
+            _settings = settings;
+
             InitializeComponent();
+
+            if (_settings.UseRedColor)
+            {
+                Röd.IsChecked = true;
+            }
+            else
+            {
+                Blå.IsChecked = true;
+            }
+            var (isOk, time) = Utility.CheckAndConvertTime(_settings.MatchLength);
+            if(isOk )
+            {
+                matchTid.Text = _settings.MatchLength;
+            }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)

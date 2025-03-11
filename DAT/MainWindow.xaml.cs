@@ -1,5 +1,5 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using DAT.Models;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -19,7 +19,8 @@ namespace DAT
         private readonly System.Timers.Timer _altColorHoldTimer = new System.Timers.Timer(1000.0);
         private readonly System.Timers.Timer _primaryColorHoldTimer = new System.Timers.Timer(1000.0);
         private DispatcherTimer previewTimer;
-        private string timePattern = @"^(\d?):(\d{2})$"; // Match "m:ss" or ":ss"
+        
+        private AppSettings _settings;
 
 
         public MainWindow()
@@ -53,49 +54,36 @@ namespace DAT
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var settings = await SettingsLoader.LoadSettingsAsync();
+            _settings = await SettingsLoader.LoadSettingsAsync();
+                        
+            ChangeColor(_settings.UseRedColor);
+            
+            var couldParse = SetTime(_settings.MatchLength);
+            if (couldParse)
+            {
+                _startTimeDisplay = _settings.MatchLength;
+            }
+        }
 
+        private void ChangeColor(bool useRedColor)
+        {
             SolidColorBrush background;
-
-            if (settings.UseRedColor)
+            if (useRedColor)
             {
                 altColorHeader.Text = "Röd";
                 background = new SolidColorBrush(Color.FromArgb(255, 204, 43, 29));
             }
             else
             {
+                altColorHeader.Text = "Blå";
                 background = new SolidColorBrush(Color.FromArgb(255, 27, 73, 242));
             }
 
             _externalWindow ??= new ExternalWindow();
 
             _externalWindow.AltColorScore_external.Background = background;
-            AltColorScore.Background = background;
-            var couldParse = SetTime(settings.MatchLength);
-            if (couldParse)
-            {
-                _startTimeDisplay = settings.MatchLength;
-            }
+            AltColorScore.Background = background;            
         }
-
-        private void ChangeColorScheme()
-        {
-            //TODO:Lägg till färgändring här
-        }
-
-        private bool SetTime(string inputTime)
-        {
-            var (isOk, time) = CheckAndConvertTime(inputTime);
-
-            if (isOk)
-            {
-                MatchLength = time;
-                Clock_label.Text = inputTime;
-                _externalWindow.Clock_external.Text = inputTime;
-            }
-            return isOk;
-        }
-
 
         private void CheckWinner()
         {
@@ -190,24 +178,23 @@ namespace DAT
             });
         }
 
-        private (bool, int) CheckAndConvertTime(string input)
+        private bool SetTime(string inputTime)
         {
-            Match match = Regex.Match(input, timePattern);
-            var isOkTimeFormat = match.Success;
-            var time = 120;
-            if (isOkTimeFormat)
+            var (isOk, time) = Utility.CheckAndConvertTime(inputTime);
+
+            if (isOk)
             {
-                int minutes = string.IsNullOrEmpty(match.Groups[1].Value) ? 0 : int.Parse(match.Groups[1].Value);
-                int seconds = int.Parse(match.Groups[2].Value);
-                time = (minutes * 60) + seconds;
+                MatchLength = time;
+                Clock_label.Text = inputTime;
+                _externalWindow.Clock_external.Text = inputTime;
             }
-            return (isOkTimeFormat, time);
+            return isOk;
         }
 
         private void StartClock_Click(object sender, RoutedEventArgs e)
         {
 
-            var (isOk, time) = CheckAndConvertTime(Clock_label.Text);
+            var (isOk, time) = Utility.CheckAndConvertTime(Clock_label.Text);
             if (isOk)
             {
                 Clock_label.Text = Clock_label.Text;
@@ -525,13 +512,19 @@ namespace DAT
             Application.Current.Shutdown();
         }
 
-        private void SettingsClicked(object sender, RoutedEventArgs e)
+        private async void SettingsClicked(object sender, RoutedEventArgs e)
         {
-            var settingsWindow = new settings();
+            
+            var settingsWindow = new settings(_settings ?? await SettingsLoader.LoadSettingsAsync());
             var dialogRes = settingsWindow.ShowDialog();
             if (dialogRes.HasValue && dialogRes.Value)
             {
-                settingsWindow.Color
+                ChangeColor(settingsWindow.Color != ColorEnum.Blue);
+                
+                if (SetTime(settingsWindow.MatchTime))
+                {
+                    _startTimeDisplay = settingsWindow.MatchTime;
+                }
             }
         }
     }
