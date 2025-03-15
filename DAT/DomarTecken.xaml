@@ -10,6 +10,6 @@
     <Grid>
         
         <Image x:Name="DomarTeckenImage" />
-        <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Stäng" Width="45" Height="20" Margin="5" Click="StängClicked"/>
+        <Button Style="{StaticResource Button}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Stäng" Width="45" Height="20" Margin="5" Click="StängClicked"/>
     </Grid>
 </Window>
