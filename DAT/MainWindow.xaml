@@ -55,12 +55,13 @@
     </Window.Resources>
 
     <DockPanel>
-        <Menu DockPanel.Dock="Top" Padding="2 0 0 0">
+        <Menu Height="20" DockPanel.Dock="Top" Padding="2 0 0 0">
             <MenuItem Header="_File">
-                <MenuItem Header="_Inställningar" Click="SettingsClicked" />
+                <MenuItem Header="_Inställningar" Click="SettingsClicked" />                
                 <Separator />
                 <MenuItem Header="_Avsluta" Click="AvslutaClicked" />
             </MenuItem>
+            <MenuItem Header="_Domartecken" Click="DomarteckenClicked" />
         </Menu>
 
         <Viewbox Stretch="Uniform">

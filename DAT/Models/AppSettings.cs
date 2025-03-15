@@ -1,6 +1,5 @@
-﻿using System;
-
-namespace DAT
+﻿
+namespace DAT.Models
 {
     public class AppSettings
     {

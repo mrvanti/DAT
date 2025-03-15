@@ -1,5 +1,4 @@
 ﻿using DAT.Models;
-using System.Runtime;
 using System.Windows;
 
 namespace DAT
@@ -9,17 +8,15 @@ namespace DAT
     /// </summary>
     public partial class settings : Window
     {
-        public ColorEnum Color { get; set; } = ColorEnum.Blue;
-        public string MatchTime { get; set; }
-        private AppSettings _settings;
+        public CurrentSettings CurrentSettings { get; set; }
 
-        public settings(AppSettings settings)
-        {
-            _settings = settings;
+        public settings(CurrentSettings currentSettings)
+        {            
+            CurrentSettings = currentSettings;
 
             InitializeComponent();
 
-            if (_settings.UseRedColor)
+            if (CurrentSettings.CurrentColor == ColorEnum.Red)
             {
                 Röd.IsChecked = true;
             }
@@ -27,19 +24,25 @@ namespace DAT
             {
                 Blå.IsChecked = true;
             }
-            var (isOk, time) = Utility.CheckAndConvertTime(_settings.MatchLength);
-            if(isOk )
-            {
-                matchTid.Text = _settings.MatchLength;
-            }
+
+            matchTid.Text = CurrentSettings.CurrentMatchLength;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {            
-            MatchTime = matchTid.Text;
+            var (isOk, _) = Utility.CheckAndConvertTime(matchTid.Text);
+            if (isOk)
+            {
+                CurrentSettings.CurrentMatchLength = matchTid.Text;
+            }
+
             if (Röd.IsChecked.HasValue && Röd.IsChecked.Value)
             {
-                Color = ColorEnum.Red;
+                CurrentSettings.CurrentColor = ColorEnum.Red;
+            }
+            else
+            {
+                CurrentSettings.CurrentColor = ColorEnum.Blue;
             }
 
             this.DialogResult = true;

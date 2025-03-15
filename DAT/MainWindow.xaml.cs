@@ -19,8 +19,8 @@ namespace DAT
         private readonly System.Timers.Timer _altColorHoldTimer = new System.Timers.Timer(1000.0);
         private readonly System.Timers.Timer _primaryColorHoldTimer = new System.Timers.Timer(1000.0);
         private DispatcherTimer previewTimer;
-        
-        private AppSettings _settings;
+                
+        private CurrentSettings CurrentSettings { get; set; } = new CurrentSettings();
 
 
         public MainWindow()
@@ -54,21 +54,24 @@ namespace DAT
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _settings = await SettingsLoader.LoadSettingsAsync();
-                        
-            ChangeColor(_settings.UseRedColor);
-            
-            var couldParse = SetTime(_settings.MatchLength);
+            var settings = await SettingsLoader.LoadSettingsAsync();
+            var color = settings.UseRedColor ? ColorEnum.Red : ColorEnum.Blue;
+
+            ChangeColor(color);
+            CurrentSettings.CurrentColor = color;
+
+            var couldParse = SetTime(settings.MatchLength);
             if (couldParse)
             {
-                _startTimeDisplay = _settings.MatchLength;
+                _startTimeDisplay = settings.MatchLength;
+                CurrentSettings.CurrentMatchLength = settings.MatchLength;
             }
         }
 
-        private void ChangeColor(bool useRedColor)
+        private void ChangeColor(ColorEnum color)
         {
             SolidColorBrush background;
-            if (useRedColor)
+            if (color == ColorEnum.Red)
             {
                 altColorHeader.Text = "Röd";
                 background = new SolidColorBrush(Color.FromArgb(255, 204, 43, 29));
@@ -512,20 +515,25 @@ namespace DAT
             Application.Current.Shutdown();
         }
 
-        private async void SettingsClicked(object sender, RoutedEventArgs e)
-        {
-            
-            var settingsWindow = new settings(_settings ?? await SettingsLoader.LoadSettingsAsync());
+        private void SettingsClicked(object sender, RoutedEventArgs e)
+        {            
+            var settingsWindow = new settings(CurrentSettings);
             var dialogRes = settingsWindow.ShowDialog();
             if (dialogRes.HasValue && dialogRes.Value)
             {
-                ChangeColor(settingsWindow.Color != ColorEnum.Blue);
-                
-                if (SetTime(settingsWindow.MatchTime))
+                ChangeColor(CurrentSettings.CurrentColor);
+
+                if (SetTime(CurrentSettings.CurrentMatchLength))
                 {
-                    _startTimeDisplay = settingsWindow.MatchTime;
+                    _startTimeDisplay = CurrentSettings.CurrentMatchLength;                    
                 }
             }
+        }
+
+        private void DomarteckenClicked(object sender, RoutedEventArgs e)
+        {
+            var domartecken = new DomarTecken();
+            domartecken.Show();
         }
     }
 }
