@@ -3,12 +3,9 @@ using System.Windows;
 
 namespace DAT
 {
-    /// <summary>
-    /// Interaction logic for settings.xaml
-    /// </summary>
     public partial class settings : Window
     {
-        public CurrentSettings CurrentSettings { get; set; }
+        private CurrentSettings CurrentSettings { get; set; }
 
         public settings(CurrentSettings currentSettings)
         {            

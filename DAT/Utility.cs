@@ -1,17 +1,14 @@
-﻿
-using System.Text.RegularExpressions;
-
+﻿using System.Text.RegularExpressions;
 
 namespace DAT
 {
     internal static class Utility
     {
-        private static string timePattern = @"^(\d?):(\d{2})$"; // Match "m:ss" or ":ss"
-
+        private readonly static string TimePattern = @"^(\d?):(\d{2})$"; // Match "m:ss" or ":ss"
 
         internal static (bool, int) CheckAndConvertTime(string input)
         {
-            Match match = Regex.Match(input, timePattern);
+            Match match = Regex.Match(input, TimePattern);
             var isOkTimeFormat = match.Success;
             var time = 120;
             if (isOkTimeFormat)
