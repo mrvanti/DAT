@@ -1,4 +1,5 @@
 ﻿using DAT.Models;
+using DAT.Models.Enums;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -527,7 +528,15 @@ namespace DAT
                 {
                     _startTimeDisplay = CurrentSettings.CurrentMatchLength;                    
                 }
+                SetSide(CurrentSettings.PrimaryColorSide);
             }
+        }
+
+        private void SetSide(SideEnum side)
+        {
+            Grid.SetColumn(this.primaryColorCol, side == SideEnum.Left ? 2 : 1);
+            Grid.SetColumn(this.altColorCol, side == SideEnum.Left ? 1 : 2);
+            //Grid.SetColumn(_externalWindow.)
         }
 
         private void DomarteckenClicked(object sender, RoutedEventArgs e)

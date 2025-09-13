@@ -1,4 +1,5 @@
 ﻿using DAT.Models;
+using DAT.Models.Enums;
 using System.Windows;
 
 namespace DAT
@@ -42,6 +43,15 @@ namespace DAT
                 CurrentSettings.CurrentColor = ColorEnum.Blue;
             }
 
+            if (Höger.IsChecked.HasValue && Höger.IsChecked.Value)
+            {
+                CurrentSettings.PrimaryColorSide = SideEnum.Right;
+            }
+            else
+            {
+                CurrentSettings.PrimaryColorSide = SideEnum.Left;
+            }
+
             this.DialogResult = true;
             this.Close();
         }
@@ -60,6 +70,16 @@ namespace DAT
         private void Röd_Click(object sender, RoutedEventArgs e)
         {
             Blå.IsChecked = false;
+        }
+
+        private void Vänster_Click(object sender, RoutedEventArgs e)
+        {
+            Höger.IsChecked = false;
+        }
+
+        private void Höger_Click(object sender, RoutedEventArgs e)
+        {
+            Vänster.IsChecked = false;
         }
     }
 }

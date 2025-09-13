@@ -1,5 +1,4 @@
-﻿
-namespace DAT.Models
+﻿namespace DAT.Models.Enums
 {
     public enum ColorEnum
     {

@@ -15,8 +15,13 @@
         </Menu>
 
         <Viewbox Stretch="Uniform">
-            <Grid>
-                <GroupBox  HorizontalAlignment="Left" Height="410" Width="200" VerticalAlignment="Center">
+            <Grid>                
+                <Grid.ColumnDefinitions>                  
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <GroupBox Grid.Column="0"  Height="410">
                     <GroupBox.Header>
                         <TextBlock FontSize="25">Match</TextBlock>
                     </GroupBox.Header>
@@ -49,7 +54,7 @@
                     </Grid>
                 </GroupBox>
 
-                <GroupBox HorizontalAlignment="Left" Height="410" Width="180" VerticalAlignment="Center" Margin="400,0,0,0">
+                <GroupBox Grid.Column="2" x:Name="altColorCol" Height="410" >
                     <GroupBox.Header>
                         <TextBlock x:Name="altColorHeader" Text="Blå" FontSize="25"></TextBlock>
                     </GroupBox.Header>
@@ -76,7 +81,7 @@
                     </Grid>
                 </GroupBox>
 
-                <GroupBox HorizontalAlignment="Center" Height="410" Width="180" VerticalAlignment="Center">
+                <GroupBox x:Name="primaryColorCol" Grid.Column="1" Height="410" >
                     <GroupBox.Header>
                         <TextBlock FontSize="25">Vit</TextBlock>
                     </GroupBox.Header>
