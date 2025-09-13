@@ -357,7 +357,7 @@ namespace DAT
             }
             if (holdTime >= HolderWazari && holdTime < HolderIppon)
             {
-                return "Wazari";
+                return "Waza-ari";
             }
             if (holdTime >= HolderIppon)
             {
